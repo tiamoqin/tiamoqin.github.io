@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>Reproduce: medical imaging database - Hexo</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.1.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Tiamoqin</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/maskgirl.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Reproduce: medical imaging database">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-11-16 21:23" pubdate>
+        2020年11月16日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      37
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Reproduce: medical imaging database</h1>
+            
+            <div class="markdown-body">
+              <h1 id="转载：【数据集】一文道尽医学图像数据集与竞赛"><a href="#转载：【数据集】一文道尽医学图像数据集与竞赛" class="headerlink" title="转载：【数据集】一文道尽医学图像数据集与竞赛"></a>转载：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/50615907">【数据集】一文道尽医学图像数据集与竞赛</a></h1><p>作者：<a target="_blank" rel="noopener" href="https://www.zhihu.com/people/long-peng-11">言有三</a></p>
+<p>在AI与深度学习逐渐发展成熟的趋势下，人工智能和大数据等技术开始进入了医疗领域，它们把现有的一些传统流程进行优化，大幅度提高各种流程的效率、精度、用户体验，同时也缓解了医疗资源的压力和精确度不够的问题。</p>
+<h2 id="01-医学数据集"><a href="#01-医学数据集" class="headerlink" title="01 医学数据集"></a>01 <strong>医学数据集</strong></h2><p>智能医疗有很多的发展方向，例如医学影像处理、诊断预测、疾病控制、健康管理、康复机器人、语音识别病历电子化等。当前人工智能技术新的发力点中的医学图像在疾病的预测和自动化诊断方面有非常大的意义，本篇即针对医学影像中的病例分析，降噪，分割，检索等领域来介绍一些常用的数据集。</p>
+<p><strong>1.1 病例分析数据集</strong></p>
+<p><strong>1.1.1 ABIDE</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=http://preprocessed-connectomes-project.org/abide/">http://preprocessed-connectomes-project.org/abide/</a></p>
+<p>发布于2013年，这是一个对自闭症内在大脑结构的大规模评估数据集，包括539名患有ASD和573名正常个体的功能MRI图像。</p>
+<p><strong>1.1.2 OASIS</strong></p>
+<p>数据集地址：<a href="https://link.zhihu.com/?target=http://www.oasis-brains.org/">http://www.oasis-brains.org/</a></p>
+<p>OASIS，全称为Open Access Series of Imaging Studies，已经发布了第3代版本，第一次发布于2007年，是一项旨在使科学界免费提供大脑核磁共振数据集的项目。它有两个数据集可用，下面是第1版的主要内容。</p>
+<p>(1) 横截面数据集：年轻，中老年，非痴呆和痴呆老年人的横断面MRI数据。该组由416名年龄在18岁至96岁的受试者组成的横截面数据库组成。对于每位受试者，单独获得3或4个单独的T1加权MRI扫描包括扫描会话。受试者都是右撇子，包括男性和女性。100名60岁以上的受试者已经临床诊断为轻度至中度阿尔茨海默病。</p>
+<p>(2) 纵向集数据集：非痴呆和痴呆老年人的纵向磁共振成像数据。该集合包括150名年龄在60至96岁的受试者的纵向集合。每位受试者在两次或多次访视中进行扫描，间隔至少一年，总共进行373次成像。对于每个受试者，包括在单次扫描期间获得的3或4次单独的T1加权MRI扫描。受试者都是右撇子，包括男性和女性。在整个研究中，72名受试者被描述为未被证实。包括的受试者中有64人在初次就诊时表现为痴呆症，并在随后的扫描中仍然如此，其中包括51名轻度至中度阿尔茨海默病患者。另外14名受试者在初次就诊时表现为未衰退，随后在随后的访视中表现为痴呆症。</p>
+<p><strong>1.1.3 DDSM</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=http://marathon.csee.usf.edu/Mammography/Database.html">http://marathon.csee.usf.edu/Mammography/Database.html</a></p>
+<p>发布于2000年，这是一个用于筛选乳腺摄影的数字数据库，是乳腺摄影图像分析研究社区使用的资源。该项目的主要支持来自美国陆军医学研究和装备司令部的乳腺癌研究计划。DDSM项目是由马萨诸塞州综合医院（D. Kopans，R. Moore），南佛罗里达大学（K. Bowyer）和桑迪亚国家实验室（P. Kegelmeyer）共同参与的合作项目。数据库的主要目的是促进计算机算法开发方面的良好研究，以帮助筛选。数据库的次要目的可能包括开发算法以帮助诊断和开发教学或培训辅助工具。该数据库包含约2,500项研究。每项研究包括每个乳房的两幅图像，以及一些相关的患者信息（研究时间，ACR乳房密度评分，异常微妙评级，异常ACR关键字描述）和图像信息（扫描仪，空间分辨率等）。包含可疑区域的图像具有关于可疑区域的位置和类型的像素级“地面真实”信息。</p>
+<p><strong>1.1.4 MIAS</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=http://peipa.essex.ac.uk/pix/mias/all-mias.tar.gz">http://peipa.essex.ac.uk/pix/mias/all-mias.tar.gz</a></p>
+<p><a href="https://link.zhihu.com/?target=https://www.repository.cam.ac.uk/handle/1810/250394?show=full">https://www.repository.cam.ac.uk/handle/1810/250394?show=full</a></p>
+<p>MIAS全称为MiniMammographic Database，是乳腺图像数据库。</p>
+<p>乳腺MG数据（Breast Mammography）有个专门的database，可以查看很多数据集，链接地址为：<a href="https://link.zhihu.com/?target=http://www.mammoimage.org/databases/">http://www.mammoimage.org/databases/</a></p>
+<p><strong>1.1.5 MURA</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=https://stanfordmlgroup.github.io/competitions/mura/">https://stanfordmlgroup.github.io/competitions/mura/</a></p>
+<p>发布于2018年2月，吴恩达团队开源了 MURA 数据库，MURA 是目前最大的 X 光片数据库之一。该数据库中包含了源自14982项病例的40895张肌肉骨骼X光片。1万多项病例里有9067例正常的上级肌肉骨骼和5915例上肢异常肌肉骨骼的X光片，部位包括肩部、肱骨、手肘、前臂、手腕、手掌和手指。每个病例包含一个或多个图像，均由放射科医师手动标记。全球有超过17亿人都有肌肉骨骼性的疾病，因此训练这个数据集，并基于深度学习检测骨骼疾病，进行自动异常定位，通过组织器官的X光片来确定机体的健康状况，进而对患者的病情进行诊断，可以帮助缓解放射科医生的疲劳。</p>
+<p>公开可用的医学射线照相图像数据集概述</p>
+<p><img src="https://pic2.zhimg.com/80/v2-ffe9bc0a1df80ac718ad9cc96a4ac209_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p>参考2018年论文：MURA: Large Dataset for Abnormality Detection in Musculoskeletal Radiographs.</p>
+<p><strong>1.1.6 ChestX-ray14</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=https://www.kaggle.com/nih-chest-xrays/data">https://www.kaggle.com/nih-chest-xrays/data</a></p>
+<p><a href="https://link.zhihu.com/?target=https://nihcc.app.box.com/v/ChestXray-NIHCC">https://nihcc.app.box.com/v/ChestXray-NIHCC</a></p>
+<p>参考论文：</p>
+<p>CheXNet: Radiologist-Level Pneumonia Detection on Chest X-Rays with Deep Learning</p>
+<p>ChestX-ray14 是由NIH研究院提供的，其中包含了30,805名患者的112,120个单独标注的14种不同肺部疾病（肺不张、变实、浸润、气胸、水肿、肺气肿、纤维变性、积液、肺炎、胸膜增厚、心脏肥大、结节、肿块和疝气）的正面胸部 X 光片。研究人员对数据采用NLP方法对图像进行标注。利用深度学习的技术早期发现并识别胸透照片中肺炎等疾病对增加患者恢复和生存的最佳机会至关重要。</p>
+<p><strong>1.1.7 LIDC-IDRI</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI">https://wiki.cancerimagingarchive.net/display/Public/LIDC-IDRI</a></p>
+<p>LIDC-IDRI数据集是由美国国家癌症研究所(National Cancer Institute)发起收集的，目的是为了研究高危人群早期肺结节检测。该数据集中，共收录了1018个研究实例。对于每个实例中的图像，都由4位经验丰富的胸部放射科医师进行两阶段的诊断标注。该数据集由胸部医学图像文件(如CT、X光片)和对应的诊断结果病变标注组成。</p>
+<p><strong>1.1.8 LUNA16</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=https://luna16.grand-challenge.org/Home/">https://luna16.grand-challenge.org/Home/</a></p>
+<p>发布于2016年，是肺部肿瘤检测最常用的数据集之一，它包含888个CT图像，1084个肿瘤，图像质量和肿瘤大小的范围比较理想。数据分为10个subsets，subset包含89/88个CT scan。</p>
+<p>LUNA16的CT图像取自LIDC/IDRI数据集，选取了三个以上放射科医师意见一致的annotation，并且去掉了小于3mm的肿瘤，所以数据集里不含有小于3mm的肿瘤，便于训练。</p>
+<p><strong>1.1.9 NSCLC</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=https://wiki.cancerimagingarchive.net/display/Public/NSCLC+Radiogenomics">https://wiki.cancerimagingarchive.net/display/Public/NSCLC+Radiogenomics</a></p>
+<p>发布于2018年，来自斯坦福大学。数据集来自211名受试者的非小细胞肺癌（NSCLC）队列的独特放射基因组数据集。该数据集包括计算机断层扫描（CT），正电子发射断层扫描（PET）/ CT图像。创建该数据集是为了便于发现基因组和医学图像特征之间的基础关系，以及预测医学图像生物标记的开发和评估。</p>
+<p><strong>1.1.10 DeepLesion</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=https://nihcc.app.box.com/v/DeepLesion">https://nihcc.app.box.com/v/DeepLesion</a></p>
+<p>DeepLesion由美国国立卫生研究院临床中心（NIHCC）的团队开发，是迄今规模最大的多类别、病灶级别标注临床医疗CT图像开放数据集。在该数据库中图像包括多种病变类型，目前包括4427个患者的32,735 张CT图像及病变信息，同时也包括肾脏病变，骨病变，肺结节和淋巴结肿大。DeepLesion多类别病变数据集可以用来开发自动化放射诊断的CADx系统。</p>
+<p><strong>1.1.11 ADNI</strong></p>
+<p>数据集地址：</p>
+<p>http : //<a href="https://link.zhihu.com/?target=http://adni.loni.usc.edu/data-samples/access-data/">http://adni.loni.usc.edu/data-samples/access-data/</a></p>
+<p>ANDI涉及到的数据集包括如下几部分Clinical Data（临床数据）、MR Image Data（磁共振成像）、Standardized MRI Data Sets、PET Image Data（正电子发射计算机断层扫描）、Gennetic Data（遗传数据）、Biospecimen Data（生物样本数据）。</p>
+<p><strong>1.2 医学降噪数据集</strong></p>
+<p><strong>1.2.1 BrainWeb数据集</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=http://brainweb.bic.mni.mcgill.ca/brainweb/">http://brainweb.bic.mni.mcgill.ca/brainweb/</a></p>
+<p>发布于1997年，这是一个仿真数据集，用于医学图像降噪。研究者可以截取不同断层的正常脑部仿真图像，包括T1，T2，PD3种断层，设置断层的厚度，叠加高斯噪声或者医学图像中常见的莱斯噪声，最终会得到181×217大小的噪声图像。</p>
+<p><strong>1.3 医学分割数据集</strong></p>
+<p><strong>1.3.1 DRIVE数据集</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=http://www.isi.uu.nl/Research/Databases/DRIVE/download.php">http://www.isi.uu.nl/Research/Databases/DRIVE/download.php</a></p>
+<p>发布于2003年，这是一个用于血管分割的数字视网膜图像数据集，它由40张照片组成，其中7张显示出轻度早期糖尿病视网膜病变迹象。</p>
+<p><strong>1.3.2 SCR数据集</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=http://www.isi.uu.nl/Research/Databases/SCR/">http://www.isi.uu.nl/Research/Databases/SCR/</a></p>
+<p>发布于2000年，胸部X光片的分割，胸部X光片中解剖结构的自动分割对于这些图像中的计算机辅助诊断非常重要。SCR数据库的建立是为了便于比较研究肺野，心脏和锁骨在标准的后胸前X线片上的分割。</p>
+<p>本着合作科学进步的精神，我们可以自由共享SCR数据库，并致力于在这些分割任务上维护各种算法结果的公共存储库。在这些页面上，可以在下载数据库和上载结果时找到说明，并且可以检查各种方法的基准结果。</p>
+<p><strong>1.3.3 医学图像分析benchmark</strong></p>
+<p>在网址<a href="https://link.zhihu.com/?target=https://grand-challenge.org/challenges/">https://grand-challenge.org/challenges/</a>提供了时间跨度超过10年的医学图像资料。</p>
+<p><strong>1.3.4 Ardiac MRI</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=http://www.cse.yorku.ca/~mridataset/">http://www.cse.yorku.ca/~mridataset/</a></p>
+<p>ardiac MRI 是心脏病患者心房医疗影像数据，以及其左心室的心内膜和外膜的图像标注。包括33位患者案例，每个受试者的序列由沿着长的20帧和8-15个切片组成，共7980张图像。</p>
+<p><strong>1.3.5 NIH</strong></p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=https://www.kaggle.com/nih-chest-xrays">https://www.kaggle.com/nih-chest-xrays</a></p>
+<p>发布于2017年，这是一个胸部X射线数据集，包含30,805个患者，14个疾病图像标签（其中每个图像可以具有多个标签），112,820个正面X射线图像，标签是使用自然语言处理从相关的放射学报告中自动提取。十四种常见的胸部病变包括肺不张，巩固，浸润，气胸，水肿，肺气肿，纤维化，积液，肺炎，胸膜增厚，心脏扩大，结节，肿块和疝。由于许多原因，原始放射学报告（与这些胸部X射线研究相关）并不是公开分享的。所以文本挖掘的疾病标签预计准确度 &gt; 90％，这个数据集适合做半监督的学习。</p>
+<p><strong>1.4 List of Open Access</strong></p>
+<p>在List of Open Access Medical Imaging Datasets网站上可以看到更多的相关方向的数据集。</p>
+<p>数据集地址：</p>
+<p><a href="https://link.zhihu.com/?target=http://www.radrounds.com/profiles/blogs/list-of-open-access-medical-imaging-datasets">http://www.radrounds.com/profiles/blogs/list-of-open-access-medical-imaging-datasets</a></p>
+<p><img src="https://pic4.zhimg.com/80/v2-20fa305e3a88623db367663e96eb001f_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://pic3.zhimg.com/80/v2-272b4b4f4cae4c25196521bbf4346c52_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<h2 id="02-医学竞赛"><a href="#02-医学竞赛" class="headerlink" title="02 医学竞赛"></a>02 <strong>医学竞赛</strong></h2><p><strong>2.1 VISCERAL</strong></p>
+<p>地址链接：http：//<a target="_blank" rel="noopener" href="http://www.visceral.eu/">www.visceral.eu/</a></p>
+<p>VISCERAL 是Visual Concept Extraction Challenge in Radiology的缩写，是放射学中的视觉概念提取挑战赛。他们提供几种不同成像模式（例如CT和MR）的几种解剖结构（例如肾，肺，膀胱等）的放射学数据以及一个云计算实例。</p>
+<p><strong>2.2 Grand Challenges</strong></p>
+<p>地址链接：</p>
+<p><a href="https://link.zhihu.com/?target=https://grand-challenge.org/challenges/">https://grand-challenge.org/challenges/</a></p>
+<p>提供了医学图像分析领域内所有挑战的概述，下面举的例子是2019年的医学图像方面将要举办的竞赛。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-8b25c10e60e5abab2ef830ab2f3f7a0c_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://pic4.zhimg.com/80/v2-1b173440d06a03fd2c44727020a24257_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>2.3 Dream Challenges</strong></p>
+<p>地址链接：http : //<a href="https://link.zhihu.com/?target=http://dreamchallenges.org/">http://dreamchallenges.org/</a></p>
+<p>这个挑战赛中包括有数字乳腺摄影梦想挑战；ICGC-TCGA DREAM体细胞突变称为RNA挑战（SMC-RNA）等等。</p>
+<p><img src="https://pic1.zhimg.com/80/v2-3e68ff886a3ca434807814c01bac9654_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<h2 id="03-总结"><a href="#03-总结" class="headerlink" title="03 总结"></a>03 <strong>总结</strong></h2><p>最后提供给对医学影像处理感兴趣的童鞋一个超级赞的github链接如下：</p>
+<p><a href="https://link.zhihu.com/?target=https://github.com/beamandrew/medical-data">https://github.com/beamandrew/medical-data</a></p>
+<p>这是Github上哈佛 beamandrew机器学习和医学影像研究者贡献的数据集，包括了医学影像数据、竞赛数据、来自电子健康记录的数据、医疗数据、UCI数据集、生物医学文献等。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-6e6c12e74ff30c824bd4b929255a4a5f_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://pic2.zhimg.com/80/v2-2c1015e1042409b8f6aba1dd3bc2ccf1_720w.jpg" srcset="/img/loading.gif" alt="img"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/medical-imaging/">medical imaging</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/medical-imaging/">medical imaging</a>
+                    
+                      <a class="hover-with-bg" href="/tags/database/">database</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/15/1st-blog-hexo/">
+                        <span class="hidden-mobile">The first blog about Hexo</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow  <div> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.12.0/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
