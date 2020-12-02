@@ -230,8 +230,7 @@
               <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>&#8195;&#8195;选择基于github pages服务托管blog，利用hexo做blog框架，没有任何技术的原因，只因我的ex-boyfriend在一年前用它们搭建了他自己的技术blog，今年国庆长假后，他提前没有任何征兆提出的分手让我措手不及，多少次在睡梦中哭醒，想他，可我却狠心不联系他，微信、QQ和手机全部拉黑。但是我心痛，因此我想起做一个我自己的blog，换种方式在虚拟世界，与他隔空对话。只是他不知道我是谁。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><blockquote>
 <ul>
-<li><p>有一个Github账号</p>
-</li>
+<li>有一个Github账号</li>
 <li><p>安装了node.js，npm</p>
 </li>
 <li><p>安装了git（windows客户端）</p>
@@ -270,7 +269,6 @@
 </li>
 </ul>
 <pre><code class="hljs routeros">sudo apt-<span class="hljs-builtin-name">get</span> install git</code></pre>
-
 <p>安装好后，用<code>git --version</code> 来查看一下版本</p>
 <h3 id="2-安装Node-js"><a href="#2-安装Node-js" class="headerlink" title="2.安装Node.js"></a>2.安装Node.js</h3><p>&#8195;&#8195;Hexo是基于nodejs编写的，所以需要安装一下nodeJs和里面的包管理npm工具。Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。 Nodejs 使用了一个事件驱动、非阻塞式 I/O 的模型。</p>
 <ul>
@@ -281,11 +279,9 @@
 <li><p>linux:</p>
 <pre><code class="hljs routeros">1. sudo apt-<span class="hljs-builtin-name">get</span> install nodejs
 2. sudo apt-<span class="hljs-builtin-name">get</span> install npm</code></pre>
-
 <p>安装完后，打开命令行</p>
 <pre><code class="hljs crmsh"><span class="hljs-number">1</span>. <span class="hljs-keyword">node</span> <span class="hljs-title">-v</span>
 <span class="hljs-number">2</span>. npm -v</code></pre>
-
 </li>
 </ul>
 </li>
@@ -293,15 +289,12 @@
 <h3 id="3-安装Hexo"><a href="#3-安装Hexo" class="headerlink" title="3. 安装Hexo"></a>3. 安装Hexo</h3><p>&#8195;&#8195;前面git和nodejs安装好后，就可以安装Hexo了，你可以先创建一个文件夹blog，然后cd到这个文件夹下（或者在这个文件夹下直接右键git bash打开）。</p>
 <p>输入命令</p>
 <pre><code class="hljs avrasm">npm install -g hexo-<span class="hljs-keyword">cli</span></code></pre>
-
 <p>依旧利用<code>hexo -v</code>查看一下版本</p>
 <p>接下来初始化一下hexo</p>
 <pre><code class="hljs csharp">hexo <span class="hljs-keyword">init</span> myblog</code></pre>
-
 <p>这个myblog可以自己取什么名字都可以，然后</p>
 <pre><code class="hljs angelscript"><span class="hljs-number">1.</span> cd myblog <span class="hljs-comment">//进入这个myblog文件夹</span>
 <span class="hljs-number">2.</span> npm install</code></pre>
-
 <p>新建完成后，指定文件夹目录下有：</p>
 <ul>
 <li><p>node_modules: 依赖包</p>
@@ -317,74 +310,62 @@
 <li><p>_config.yml: 博客的配置文件</p>
  <pre><code class="hljs verilog"><span class="hljs-number">1</span>. hexo <span class="hljs-keyword">generate</span> <span class="hljs-comment">// 或用缩写g</span>
 <span class="hljs-number">2</span>. hexo server</code></pre>
-
 </li>
 </ul>
-<p>打开hexo的服务，在浏览器输入localhost:4000就可以看到你生成的博客了。大概长这样：<br>   <img src="http://ww1.sinaimg.cn/large/d40b6c29gy1fvrksvj6e0j211c0f2n60.jpg" srcset="/img/loading.gif"><br>使用ctrl+c可以把服务关掉。</p>
+<p>打开hexo的服务，在浏览器输入localhost:4000就可以看到你生成的博客了。大概长这样：<br>   <img src="http://ww1.sinaimg.cn/large/d40b6c29gy1fvrksvj6e0j211c0f2n60.jpg" srcset="/img/loading.gif" alt=""><br>使用ctrl+c可以把服务关掉。</p>
 <h3 id="4-Github创建个人仓库"><a href="#4-Github创建个人仓库" class="headerlink" title="4. Github创建个人仓库"></a>4. Github创建个人仓库</h3><p>&#8195;&#8195;首先，你先要有一个GitHub账户。在GitHub.com中看到一个New repository，新建仓库创建一个和你用户名相同的仓库，后面加.github.io，只有这样，将来要部署到GitHub page的时候，才会被识别，也就是xxxx.github.io，其中xxx就是你注册GitHub的用户名。（此处引用别人的图，我偷个懒）</p>
-<p><img src="https://i.loli.net/2020/11/14/stg6iZuDJ4OrWBY.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://i.loli.net/2020/11/14/stg6iZuDJ4OrWBY.jpg" srcset="/img/loading.gif" alt=""></p>
 <p>点击create repository。</p>
 <p>另外要注意的是braches 要将master要设为默认，否则会切换到main。GitHub Pages 要将Source的Brach设为master。</p>
 <h3 id="5-生成SSH添加到GitHub"><a href="#5-生成SSH添加到GitHub" class="headerlink" title="5.生成SSH添加到GitHub"></a>5.生成SSH添加到GitHub</h3><p>回到git bash中，</p>
 <pre><code class="hljs routeros">1. git<span class="hljs-built_in"> config </span>--global user.name <span class="hljs-string">&quot;yourname&quot;</span>
 2. git<span class="hljs-built_in"> config </span>--global user.email <span class="hljs-string">&quot;youremail&quot;</span></code></pre>
-
 <p>这里的yourname输入你的GitHub用户名，youremail输入你GitHub的邮箱。这样GitHub才能知道你是不是对应它的账户。可以用以下两条，检查一下你有没有输对</p>
 <pre><code class="hljs routeros">1. git<span class="hljs-built_in"> config </span>user.name
 2. git<span class="hljs-built_in"> config </span>user.email</code></pre>
-
 <p>然后创建SSH,一路回车</p>
 <pre><code class="hljs excel">ssh-keygen -<span class="hljs-built_in">t</span> rsa -C <span class="hljs-string">&quot;youremail&quot;</span></code></pre>
-
 <p>这个时候它会告诉你已经生成了.ssh的文件夹。在你的电脑中找到这个文件夹。（继续借用别人的图）</p>
-<p><img src="https://i.loli.net/2020/11/14/JbjR6iD4dFAlgS5.jpg" srcset="/img/loading.gif"></p>
+<p><img src="https://i.loli.net/2020/11/14/JbjR6iD4dFAlgS5.jpg" srcset="/img/loading.gif" alt=""></p>
 <p>&#8195;&#8195;ssh，简单来讲，就是一个秘钥，其中，<code>id_rsa</code>是你这台电脑的私人秘钥，不能给别人看的，<code>id_rsa.pub</code>是公共秘钥，可以随便给别人看。把这个公钥放在GitHub上，这样当你链接GitHub自己的账户时，它就会根据公钥匹配你的私钥，当能够相互匹配时，才能够顺利的通过git上传你的文件到GitHub上。而后在GitHub的setting中，找到SSH keys的设置选项，点击<code>New SSH key</code>，把你的<code>id_rsa.pub</code>里面的信息复制进去。</p>
 <p>在git bash中，查看是否成功</p>
 <pre><code class="hljs nginx"><span class="hljs-attribute">ssh</span> -T git<span class="hljs-variable">@github</span>.com</code></pre>
-
 <h3 id="6-将Hexo部署到GitHub"><a href="#6-将Hexo部署到GitHub" class="headerlink" title="6.将Hexo部署到GitHub"></a>6.将Hexo部署到GitHub</h3><p>&#8195;&#8195;这一步，我们就可以将Hexo和GitHub关联起来，也就是将Hexo生成的文章部署到GitHub上，打开站点配置文件 <code>_config.yml</code>，翻到最后，修改为YourgithubName就是你的GitHub账户</p>
 <pre><code class="hljs less"><span class="hljs-attribute">deploy</span>:
   <span class="hljs-attribute">type</span>: git
   <span class="hljs-attribute">repo</span>: git<span class="hljs-variable">@github</span>.<span class="hljs-attribute">com</span>:tiamoqin/tiamoqin.github.io.git
   <span class="hljs-attribute">branch</span>: master</code></pre>
-
 <p> 这个时候需要先安装deploy-git ，也就是部署的命令,这样你才能用命令部署到GitHub。</p>
 <pre><code class="hljs sql">npm <span class="hljs-keyword">install</span> hexo-deployer-git <span class="hljs-comment">--save</span></code></pre>
-
 <p>然后</p>
 <pre><code class="hljs verilog"><span class="hljs-number">1</span><span class="hljs-variable">.hexo</span> clean
 <span class="hljs-number">2</span><span class="hljs-variable">.hexo</span> <span class="hljs-keyword">generate</span>
 <span class="hljs-number">3</span><span class="hljs-variable">.hexo</span> deploy</code></pre>
-
 <p>其中 <code>hexo clean</code>清除了你之前生成的东西，也可以不加。<br><code>hexo generate</code> 顾名思义，生成静态文章，可以用 <code>hexo g</code>缩写<br><code>hexo deploy</code> 部署文章，可以用<code>hexo d</code>缩写</p>
 <p>注意deploy时可能要你输入username和password。</p>
 <p>过一会儿就可以在<code>http://yourname.github.io</code> 这个网站看到你的博客了！！</p>
 <h3 id="7-设置个人域名"><a href="#7-设置个人域名" class="headerlink" title="7. 设置个人域名"></a>7. 设置个人域名</h3><p>&#8195;&#8195;现在你的个人网站的地址是 <code>yourname.github.io</code>，如果觉得这个网址逼格不太够，这就需要你设置个人域名了。但是需要花钱。在<a target="_blank" rel="noopener" href="https://sg.godaddy.com/">godaddy</a>和<a target="_blank" rel="noopener" href="https://wanwang.aliyun.com/?spm=5176.8142029.digitalization.2.e9396d3e46JCc5">阿里云</a>上买一个域名，我买的是 <code>tiamoqin.me</code>，各个后缀的价格不太一样。</p>
 <p>&#8195;&#8195;以下示范，是阿里云域名网站。点<strong>解析</strong>进去，添加解析。godaddy请参考[<a target="_blank" rel="noopener" href="https://www.cnblogs.com/openxxs/p/5950598.html">通过GitHub和GoDaddy搭建静态个人博客</a>]，godaddy的交互很坑人，我找了半天的Domains manage。</p>
-<p><img src="http://ww1.sinaimg.cn/large/d40b6c29gy1fvrkstcu8xj20d607wdfw.jpg" srcset="/img/loading.gif"></p>
+<p><img src="http://ww1.sinaimg.cn/large/d40b6c29gy1fvrkstcu8xj20d607wdfw.jpg" srcset="/img/loading.gif" alt=""></p>
 <p>其中，192.30.252.153 和 192.30.252.154 是GitHub的服务器地址，或从这里<a target="_blank" rel="noopener" href="https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pages/managing-a-custom-domain-for-your-github-pages-site">获取服务器地址</a><br><strong>注意，解析线路选择默认</strong>。这个境外是后面来做国内外分流用的,在后面的博客中会讲到。记得现在选择<strong>默认</strong>！！</p>
-<p><img src="http://ww1.sinaimg.cn/large/d40b6c29gy1fvrkstf8unj20ob05b0sq.jpg" srcset="/img/loading.gif"></p>
+<p><img src="http://ww1.sinaimg.cn/large/d40b6c29gy1fvrkstf8unj20ob05b0sq.jpg" srcset="/img/loading.gif" alt=""></p>
 <p>登录GitHub，进入之前创建的仓库，点击settings，设置Custom domain，输入你的域名<code>tiamoqin.me</code></p>
 <p>然后在你的博客文件source中创建一个名为CNAME文件，不要后缀。写上你的域名。</p>
-<p><img src="https://i.loli.net/2020/11/14/REtsF6WG3vknq8X.png" srcset="/img/loading.gif"></p>
+<p><img src="https://i.loli.net/2020/11/14/REtsF6WG3vknq8X.png" srcset="/img/loading.gif" alt=""></p>
 <p>最后，在gitbash中，输入</p>
 <pre><code class="hljs angelscript"><span class="hljs-number">1.</span> hexo clean
 <span class="hljs-number">2.</span> hexo g
 <span class="hljs-number">3.</span> hexo d</code></pre>
-
 <p>过不了多久，再打开你的浏览器，输入你自己的域名，就可以看到搭建的网站啦！</p>
 <p>接下来你就可以正式开始写文章了。</p>
 <pre><code class="hljs actionscript">hexo <span class="hljs-keyword">new</span> newpapername</code></pre>
-
 <p>然后在source/_post中打开markdown文件，就可以开始编辑了。当你写完的时候，再</p>
 <pre><code class="hljs angelscript"><span class="hljs-number">1.</span> hexo clean
 <span class="hljs-number">2.</span> hexo g
 <span class="hljs-number">3.</span> hexo d</code></pre>
-
 <p>或者省略形式</p>
 <pre><code class="hljs awk">hexo s -g <span class="hljs-regexp">//</span>生成并启动本低服务器
 hexo d -g <span class="hljs-regexp">//</span>生成并部署到github</code></pre>
-
 <p>就可以看到更新了。注意由于域名和服务器分属不同厂商，DNS缓存有点慢，打开域名，好久才可以更新。大概十几分钟。</p>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ol>
 <li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_37781304/article/details/82729029">hexo史上最全搭建教程</a></p>
@@ -615,6 +596,45 @@ hexo d -g <span class="hljs-regexp">//</span>生成并部署到github</code></pr
 
 
 
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.staticfile.org/mathjax/3.1.2/es5/tex-svg.js" ></script>
+
+  
 
 
 
