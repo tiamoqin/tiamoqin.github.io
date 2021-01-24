@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Entropy</title>
+    <link href="/2021/01/24/Entropy/"/>
+    <url>/2021/01/24/Entropy/</url>
+    
+    <content type="html"><![CDATA[<h1 id="关于“熵Entropy”的整理"><a href="#关于“熵Entropy”的整理" class="headerlink" title="关于“熵Entropy”的整理"></a>关于“熵Entropy”的整理</h1><p>1948年，香农（Claude Shannon）在他著名的论文“通信的数学原理”（<em> A Mathematic Theory of Communication</em>) 中提出了“信息熵”的概念。信息的信息量与其不确定性有着直接的关系。在通俗的介绍中，熵一般有两种解释：<strong>（1）熵是不确定性的度量；（2）熵是信息的度量。</strong>看上去说的不是一回事，其实它们说的就是同一个意思。首先，熵是不确定性的度量，它衡量着我们对某个事物的<strong>“无知程度”</strong>。熵为什么又是信息的度量呢？既然熵代表了我们对事物的无知，那么当我们从“无知”到“完全认识”这个过程中，就会获得一定的信息量，我们开始越无知，那么到达“完全认识”时，获得的信息量就越大，因此，作为不确定性的度量的熵，也可以看作是信息的度量，说准确点，是我们能从中获得的最大的信息量。</p><h2 id="1-信息熵"><a href="#1-信息熵" class="headerlink" title="1. 信息熵"></a>1. 信息熵</h2><p>香农用“比特”（Bit）这个概念来度量信息量。信息量的比特数和所有可能情况的对数函数$log$ 有关。熵的基本计算公式为：</p><script type="math/tex; mode=display">H(X)=-\sum_{x \in X}p(x)logp(x)\tag 1</script><p>这里的$log$可以是自然对数，也可以是以2为底的对数，事实上，任意大于1的底都是成立的，因为换底只不过相当于换了信息的单位。$p(x)$是量$X$取值为$x$的概率。对于连续的概率分布，熵类似地定义为（把求和换成积分）</p><script type="math/tex; mode=display">H(X)=-\int_{x \in X} p(x)logp(x)dx\tag 2</script><p>$p(x)$是$X$的概率密度函数</p><h2 id="2-信息的相关性与”条件熵”（Conditional-Entropy）"><a href="#2-信息的相关性与”条件熵”（Conditional-Entropy）" class="headerlink" title="2. 信息的相关性与”条件熵”（Conditional Entropy）"></a>2. 信息的相关性与”条件熵”（Conditional Entropy）</h2><p>信息和消除不确定性是相联系的，不确定性假定为$U$，从外部消除这个不确定性唯一的办法是引入信息$I$，而需要引入的信息量取决于这个不确定性的大小，即$I &gt; U $才行。当$I &lt; U $时，这些信息可以消除一部分不确定性，也就是说新的不确定性。</p><script type="math/tex; mode=display">U^\prime = U - I\tag 3</script><p>如果没有信息，任何公式或者数字的游戏都无法排除不确定性。</p><p>在数学上可以严格的证明为什么这些”相关的”信息也能够消除不确定性。为此，需要引入一个条件熵的概念。</p><p>假定$X$和$Y$是两个随机变量，假定我们现在知道了$X$的随机分布$p(X)$,那么也就知道了$X$的熵，如式（1）。现在家定我们还知道$Y$的一些情况，包括它和$X$一起出现的概率，在数学上称为联合概率分布（JointProbability），以及在$Y$取不同值得前提下$X$的概率分布，在数学上称为条件概率分布（Conditional Probability）。定义在$Y$的条件下的条件熵为：</p><script type="math/tex; mode=display">H(X|Y)= -\sum_ {x\in X,y\in Y}p(x,y)logp(x|y)\tag 4</script><p>$H(x) \geqq H(X|Y)$, 也就是说多了$Y$ 的信息之后，关于X的不确定性下降了。在数学上证明了二元模型的不确定性小于一元模型。同理可以定义有两个条件的条件熵</p><script type="math/tex; mode=display">H(X|Y,Z)=-\sum_ {x\in X,y\in Y,z \in Z}p(x,y,z)logp(x|y,z)\tag 5</script><h2 id="3-互信息（Mutual-information）"><a href="#3-互信息（Mutual-information）" class="headerlink" title="3.  互信息（Mutual information）"></a>3.  互信息（Mutual information）</h2><p>香农在信息论中提出了一个“互信息”的概念作为两个随机事件“相关性”的量化度量。</p><p>假定有两个随机事件$X$和$Y$，它们的互信息定义如下：</p><script type="math/tex; mode=display">I(X:Y)= \sum_{x \in X, y \in Y}p(x,y)log \cfrac{p(x,y)}{p(x)p(y)}\tag 6</script><p>这个互信息熵是随机事件$X$的不确定性或者说熵$H(x)$，以及在知道随机事件$Y$下的不确定性，或者说条件熵$H(X|Y)$之间的<strong>差异</strong>，即</p><script type="math/tex; mode=display">I(X:Y)=H(X)-H(X|Y)\tag 7</script><p>所以，所谓两个事件相关性的量化度量，就是在了解了其中一个$Y$的前提下，对消除另一个$X$不确定性所提供的信息量。需要讲一下，互信息是一个取值在$0$到$min(H(x)，H(y))$之间的函数，当$X$和$Y$完全相关时，它的取值是$H(X)$；当二者完全无关时，它的取值时$0$。</p><h2 id="4-相对熵（Relative-Entropy）"><a href="#4-相对熵（Relative-Entropy）" class="headerlink" title="4. 相对熵（Relative Entropy）"></a>4. 相对熵（Relative Entropy）</h2><p>”相对熵“，在有些文献中也被称为”交叉熵“，相对熵用来衡量相关性，但和变量的互信息不同，它用来衡量两个取值为正数的函数的相对性，它的定义如下：</p><script type="math/tex; mode=display">KL(f(x)||g(x))= \sum_{x \in X}f(x)\cdot log \cfrac{f(x)}{g(x)}\tag 8</script><p>有如下三条结论：</p><ol><li>对于两个完全相同的函数，他们的相对熵等于零。</li><li>相对熵越大，两个函数差异越大；反之，相对熵越小，两个函数差异越小。</li><li><strong>对于概率分布或者概率密度函数，如果取值均大于零，相对熵可以度量两个随机分布的差异性。</strong></li></ol><p>需要指出的是相对熵是不对称的，即</p><script type="math/tex; mode=display">KL(f(x)||g(x)) \ne KL(g(x)||f(x))\tag 9</script><p>为了让它对称，詹森和香农提出一种新的相对熵的计算方法，将上面的不等式两边取平均，即</p><script type="math/tex; mode=display">Js(f(x)||g(x))= \cfrac{1}{2}[KL(f(x)||g(x))+KL(g(x)||f(x))]\tag {10}</script><h3 id="交叉熵Cross-Entropy"><a href="#交叉熵Cross-Entropy" class="headerlink" title="交叉熵Cross-Entropy"></a>交叉熵Cross-Entropy</h3><p>在图像分割中，相关的损失函数中包含了基于分布的二元交叉熵（Binary Cross-Entropy）、加权交叉熵（Weighted Cross-Entropy）和平衡交叉熵（Balanced Cross-Entropy）。</p><p><strong>二元交叉熵</strong></p><p>交叉熵的损失函数单独评估每个像素矢量的类预测，然后对所有像素求平均值，所以我们可以认为图像中的像素被平等的学习了。但是，医学图像中常出现类别不均衡 （class imbalance）的问题，由此导致训练会被像素较多的类主导，对于较小的物体很难学习到其特征，从而降低网络的有效性。</p><p>最好的使用场景是不同的类别间有均匀分布的数据，是基于伯努利分布的损失函数。</p><p><strong>加权二元交叉熵</strong></p><p>加权二元交叉熵（WCE）是二元交叉熵变量的一个变种。在这个例子中，正的例子被一些系数加权。它广泛用于倾斜数据的情况。</p><p>加入的权值用于调整假阴性和假阳性。如果你想减少假阴性的数量就设置权值大于1，同样地，如果想要减少假阳性的数量就设置权值小于1.权值是用于正例的系数。</p><p>应用场景：广泛应用于偏斜数据集，通过系数来衡量。</p><p><strong>平衡交叉熵</strong></p><p>平衡交叉熵（BCE）类似于加权交叉熵。唯一的区别是，除了正例子，我们还对负示例进行了加权。</p><p>应用场景：与加权交叉熵类似，广泛应用于倾斜数据集，它分别对正样本和负样本进行加权。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>machine learning</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>machine learning</tag>
+      
+      <tag>entropy</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Radiomics literature study</title>
     <link href="/2020/12/17/radiomics-lit-study/"/>
     <url>/2020/12/17/radiomics-lit-study/</url>
