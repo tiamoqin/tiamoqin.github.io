@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Entropy - Hexo</title>
+  <title>基于深度学习的图像分割的loss function - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Entropy">
+            <span class="h2" id="subtitle" title="基于深度学习的图像分割的loss function">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-01-24 10:17" pubdate>
-        2021年1月24日 上午
+      <time datetime="2021-01-24 15:46" pubdate>
+        2021年1月24日 下午
       </time>
     </span>
   
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.9k 字
+      1.5k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      21
+      17
        分钟
     </span>
   
@@ -224,66 +224,48 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Entropy</h1>
+            <h1 style="display: none">基于深度学习的图像分割的loss function</h1>
             
             <div class="markdown-body">
-              <h1 id="关于“熵Entropy”的整理"><a href="#关于“熵Entropy”的整理" class="headerlink" title="关于“熵Entropy”的整理"></a>关于“熵Entropy”的整理</h1><p>1948年，香农（Claude Shannon）在他著名的论文“通信的数学原理”（<em> A Mathematic Theory of Communication</em>) 中提出了“信息熵”的概念。信息的信息量与其不确定性有着直接的关系。在通俗的介绍中，熵一般有两种解释：<strong>（1）熵是不确定性的度量；（2）熵是信息的度量。</strong>看上去说的不是一回事，其实它们说的就是同一个意思。首先，熵是不确定性的度量，它衡量着我们对某个事物的<strong>“无知程度”</strong>。熵为什么又是信息的度量呢？既然熵代表了我们对事物的无知，那么当我们从“无知”到“完全认识”这个过程中，就会获得一定的信息量，我们开始越无知，那么到达“完全认识”时，获得的信息量就越大，因此，作为不确定性的度量的熵，也可以看作是信息的度量，说准确点，是我们能从中获得的最大的信息量。</p>
-<h2 id="1-信息熵"><a href="#1-信息熵" class="headerlink" title="1. 信息熵"></a>1. 信息熵</h2><p>香农用“比特”（Bit）这个概念来度量信息量。信息量的比特数和所有可能情况的对数函数$\log$ 有关。熵的基本计算公式为：</p>
+              <h1 id="基于深度学习的自然图像和医学图像分割之”损失函数“"><a href="#基于深度学习的自然图像和医学图像分割之”损失函数“" class="headerlink" title="基于深度学习的自然图像和医学图像分割之”损失函数“"></a>基于深度学习的自然图像和医学图像分割之”损失函数“</h1><p>基于深度学习的自然图像和医学图像分割，包含了网络结构设计、2D序列模型/3D卷积模型设计、损失函数设计、数据增强、融合传统计算机视觉方法、强化学习、可解释性、弱监督学习、自监督学习、预处理模块等方面，本文主要整理”损失函数“相关内容。</p>
+<p>从频率派的角度看深度学习模型，是把输入数据$X$假设为一个随机变量，服从一个概率分布$X$ ~ $p(x|\theta)$，其中参数$\theta$是未知常量。我们需要对$\theta$进行秋节，但深度学习模型直接得到解析解是不可能的，我们只能求的$\tilde{\theta}$来逼近$\theta$。损失函数就是作为优化过程的指导，衡量模型预测结果与真实标签之间的“差距”，然后通过梯度反向传播来不断修正$\tilde{\theta}$使其趋近于$\theta$，这个过程就是优化。这样模型参数的求解问题转化为一个最优化问题。图像语义分割问题可视为一个像素级分类问题，因此最常用的分类损失函数——交叉熵损失函数，可以用于图像语义分割，发展出基于交叉熵的损失函数系列；图像分割结果是一个mask（或概率图），计算预测mask（或概率图）与ground truth的重合度可以直接度量模型的分割性能，基于此发展出基于重合度度量（如IoU）的损失函数系列。下面分别进行详细介绍：</p>
+<h2 id="1-基于交叉熵的损失函数系列"><a href="#1-基于交叉熵的损失函数系列" class="headerlink" title="1. 基于交叉熵的损失函数系列"></a>1. 基于交叉熵的损失函数系列</h2><p>这个系列损失函数基于交叉熵理论进行设计，通过逐像素计算预测分布与ground truth（GT）分布之间的“差距”得到损失函数的值。数学上可证明交叉熵损失函数等价于最大似然估计。</p>
+<h3 id="1-1-交叉熵（Cross-Entropy，CE）"><a href="#1-1-交叉熵（Cross-Entropy，CE）" class="headerlink" title="1.1 交叉熵（Cross Entropy，CE）"></a>1.1 交叉熵（Cross Entropy，CE）</h3><p>交叉熵损失函数逐像素对比了模型预测向量与one-hot编码后的GT，在二类分割问题中，令：</p>
 <script type="math/tex; mode=display">
-H(X)=-\sum_{x \in X}p(x)\log p(x)
-\tag 1</script><p>这里的$\log$可以是自然对数，也可以是以2为底的对数，事实上，任意大于1的底都是成立的，因为换底只不过相当于换了信息的单位。$p(x)$是量$X$取值为$x$的概率。对于连续的概率分布，熵类似地定义为（把求和换成积分）</p>
+P(Y=1)=p
+\tag 1</script><script type="math/tex; mode=display">
+P(Y=0)=1-p
+\tag 2</script><p>其中，$Y = 1,0$分别表示标签为阳性和阴性。在分割问题中，ground truth是已知的，即$p = 0,1$。</p>
+<p>模型的概率预测结果可以由sigmoid函数（或softmax）计算得到，令：</p>
 <script type="math/tex; mode=display">
-H(X)=-\int_{x \in X} p(x)\log p(x)dx
-\tag 2</script><p>$p(x)$是$X$的概率密度函数</p>
-<h2 id="2-信息的相关性与”条件熵”（Conditional-Entropy）"><a href="#2-信息的相关性与”条件熵”（Conditional-Entropy）" class="headerlink" title="2. 信息的相关性与”条件熵”（Conditional Entropy）"></a>2. 信息的相关性与”条件熵”（Conditional Entropy）</h2><p>信息和消除不确定性是相联系的，不确定性假定为$U$，从外部消除这个不确定性唯一的办法是引入信息$I$，而需要引入的信息量取决于这个不确定性的大小，即$I &gt; U $才行。当$I &lt; U $时，这些信息可以消除一部分不确定性，也就是说新的不确定性。</p>
+P(\hat{Y}=1)=\cfrac {1}{1+e^x}=\hat{p}
+\tag 3</script><script type="math/tex; mode=display">
+P(\hat{Y}=0)=1-\cfrac {1}{1+e^x}=1-\hat{p}
+\tag 4</script><p>其中，$x$是模型的输出，后接sigmoid函数可以将其转为概率结果（即各类预测概率之和为1），$\hat{Y} = 1,0$分别表示预测为阳性和阴性。</p>
+<p>那么二分类交叉熵损失函数可以定义为：</p>
 <script type="math/tex; mode=display">
-U^\prime = U - I
-\tag 3</script><p>如果没有信息，任何公式或者数字的游戏都无法排除不确定性。</p>
-<p>在数学上可以严格的证明为什么这些”相关的”信息也能够消除不确定性。为此，需要引入一个条件熵的概念。</p>
-<p>假定$X$和$Y$是两个随机变量，假定我们现在知道了$X$的随机分布$p(X)$,那么也就知道了$X$的熵，如式（1）。现在家定我们还知道$Y$的一些情况，包括它和$X$一起出现的概率，在数学上称为联合概率分布（JointProbability），以及在$Y$取不同值得前提下$X$的概率分布，在数学上称为条件概率分布（Conditional Probability）。定义在$Y$的条件下的条件熵为：</p>
+CE(p,\hat{p})=-(p\log{\hat{p}}+(1-p)\log{(1-\hat{p})})
+\tag 5</script><p>推广即可得到多分类分割的交叉熵损失函数公式：</p>
 <script type="math/tex; mode=display">
-H(X|Y)= -\sum_ {x\in X,y\in Y}p(x,y)\log p(x|y)
-\tag 4</script><p>$H(x) \geqq H(X|Y)$, 也就是说多了$Y$ 的信息之后，关于X的不确定性下降了。在数学上证明了二元模型的不确定性小于一元模型。同理可以定义有两个条件的条件熵</p>
+CE=\sum_{class}p\log \hat{p}
+\tag 6</script><blockquote>
+<p>这里要说明一下，在从二分类推广到多分类分割问题时，需要用到one-hot编码。这在语义分割任务中是一个必不可少的步骤。一般情况下，我们分割的目标是为输入图像的每个像素预测一个标签：</p>
+<p><img src="https://i.loli.net/2021/01/24/rQPnogTz4IN1maG.jpg" srcset="/img/loading.gif" alt="语义分割原图与分割结果对比">但是FCN类网络输出结果是h*w*C的特征图，想要在特征图与GT之间 计算Loss值 ，就必须进行转换使两者额的shape对应，而且每个像素点拥有对每一类的预测概率。因此，对于网络输出的特征图（假设预定类别数为C），我们使网络输出特征图为h*w*C然后对每个像素位置的所有通道进行softmax操作，以使其表示为预测概率，最终通过取每个像素点在所有 channel 的 argmax 可以得到该像素点最终的预测类别。<br>对于数据标签（mask），为每一个类别创建一个输出通道（one-hot编码）。</p>
+<p><img src="https://i.loli.net/2021/01/24/g1Sf579T28XldRD.jpg" srcset="/img/loading.gif" alt="GT经过one-hot编码后"></p>
+</blockquote>
+<h3 id="1-2-加权交叉熵（Weighted-Cross-Entropy，WCE）"><a href="#1-2-加权交叉熵（Weighted-Cross-Entropy，WCE）" class="headerlink" title="1.2 加权交叉熵（Weighted Cross Entropy，WCE）"></a>1.2 加权交叉熵（Weighted Cross Entropy，WCE）</h3><p>交叉熵损失分别计算每个像素的交叉熵，然后对所有像素进行平均，这意味着我们默认每类像素对损失的贡献相等。 如果各类像素在图像中的数量不平衡，则可能出现问题，因为数量最多的类别会对损失函数影响最大，从而主导训练过程。 Long等提出了为每个类加权的交叉熵损失（WCE），以抵消数据集中存在的类不平衡。以二类分割为例，WCE可被定义为：</p>
 <script type="math/tex; mode=display">
-H(X|Y,Z)=-\sum_ {x\in X,y\in Y,z \in Z}p(x,y,z)\log p(x|y,z)
-\tag 5</script><h2 id="3-互信息（Mutual-information）"><a href="#3-互信息（Mutual-information）" class="headerlink" title="3.  互信息（Mutual information）"></a>3.  互信息（Mutual information）</h2><p>香农在信息论中提出了一个“互信息”的概念作为两个随机事件“相关性”的量化度量。</p>
-<p>假定有两个随机事件$X$和$Y$，它们的互信息定义如下：</p>
+WCE(p,\hat{p})=-(\beta p\log{\hat{p}}+(1-p)\log{(1-\hat{p})})
+\tag 7</script><p>当 $\beta &gt;1$ 时，可降低False Negative(FN)比例，当 $\beta &lt;1$ 时，可降低False Positive(FP)比例。即想要减小哪一类的误分率，就给哪一类赋予更大的相对权值。为了同时调整负样本的权值，可以使用BCE(Balanced Cross Entropy)损失函数：</p>
 <script type="math/tex; mode=display">
-I(X:Y)= \sum_{x \in X, y \in Y}p(x,y)\log \cfrac{p(x,y)}{p(x)p(y)}
-\tag 6</script><p>这个互信息熵是随机事件$X$的不确定性或者说熵$H(x)$，以及在知道随机事件$Y$下的不确定性，或者说条件熵$H(X|Y)$之间的<strong>差异</strong>，即</p>
+BCE(p,\hat{p})=-(\beta p\log{\hat{p}}+(1-\beta)(1-p)\log{(1-\hat{p})})
+\tag 8</script><p>Ronnenberger等人在交叉熵函数中添加了一个距离学习距离，加强模型对类间距离的学习，以在彼此之间非常接近的情况下实现更好的分割，公式如下：</p>
 <script type="math/tex; mode=display">
-I(X:Y)=H(X)-H(X|Y)
-\tag 7</script><p>所以，所谓两个事件相关性的量化度量，就是在了解了其中一个$Y$的前提下，对消除另一个$X$不确定性所提供的信息量。需要讲一下，互信息是一个取值在$0$到$min(H(x)，H(y))$之间的函数，当$X$和$Y$完全相关时，它的取值是$H(X)$；当二者完全无关时，它的取值时$0$。</p>
-<h2 id="4-相对熵（Relative-Entropy）"><a href="#4-相对熵（Relative-Entropy）" class="headerlink" title="4. 相对熵（Relative Entropy）"></a>4. 相对熵（Relative Entropy）</h2><p>”相对熵“，在有些文献中也被称为”交叉熵“，相对熵用来衡量相关性，但和变量的互信息不同，它用来衡量两个取值为正数的函数的相对性，它的定义如下：</p>
-<script type="math/tex; mode=display">
-KL(f(x)||g(x))= \sum_{x \in X}f(x)\cdot \log \cfrac{f(x)}{g(x)}
-\tag 8</script><p>有如下三条结论：</p>
-<ol>
-<li>对于两个完全相同的函数，他们的相对熵等于零。</li>
-<li>相对熵越大，两个函数差异越大；反之，相对熵越小，两个函数差异越小。</li>
-<li><strong>对于概率分布或者概率密度函数，如果取值均大于零，相对熵可以度量两个随机分布的差异性。</strong></li>
-</ol>
-<p>需要指出的是相对熵是不对称的，即</p>
-<script type="math/tex; mode=display">
-KL(f(x)||g(x)) \ne KL(g(x)||f(x))
-\tag 9</script><p>为了让它对称，詹森和香农提出一种新的相对熵的计算方法，将上面的不等式两边取平均，即</p>
-<script type="math/tex; mode=display">
-Js(f(x)||g(x))= \cfrac{1}{2}[KL(f(x)||g(x))+KL(g(x)||f(x))]
-\tag {10}</script><h3 id="交叉熵Cross-Entropy"><a href="#交叉熵Cross-Entropy" class="headerlink" title="交叉熵Cross-Entropy"></a>交叉熵Cross-Entropy</h3><p>在图像分割中，相关的损失函数中包含了基于分布的二元交叉熵（Binary Cross-Entropy）、加权交叉熵（Weighted Cross-Entropy）和平衡交叉熵（Balanced Cross-Entropy）。</p>
-<p><strong>二元交叉熵</strong></p>
-<p>交叉熵的损失函数单独评估每个像素矢量的类预测，然后对所有像素求平均值，所以我们可以认为图像中的像素被平等的学习了。但是，医学图像中常出现类别不均衡 （class imbalance）的问题，由此导致训练会被像素较多的类主导，对于较小的物体很难学习到其特征，从而降低网络的有效性。</p>
-<p>最好的使用场景是不同的类别间有均匀分布的数据，是基于伯努利分布的损失函数。</p>
-<p><strong>加权二元交叉熵</strong></p>
-<p>加权二元交叉熵（WCE）是二元交叉熵变量的一个变种。在这个例子中，正的例子被一些系数加权。它广泛用于倾斜数据的情况。</p>
-<p>加入的权值用于调整假阴性和假阳性。如果你想减少假阴性的数量就设置权值大于1，同样地，如果想要减少假阳性的数量就设置权值小于1.权值是用于正例的系数。</p>
-<p>应用场景：广泛应用于偏斜数据集，通过系数来衡量。</p>
-<p><strong>平衡交叉熵</strong></p>
-<p>平衡交叉熵（BCE）类似于加权交叉熵。唯一的区别是，除了正例子，我们还对负示例进行了加权。</p>
-<p>应用场景：与加权交叉熵类似，广泛应用于倾斜数据集，它分别对正样本和负样本进行加权。</p>
-<p><em>To be continued</em></p>
+BCE(p,\hat{p})+\omega_0\cdot\exp (-\cfrac{(d_1(x)+d_2(x))^2}{2\sigma^2})
+\tag 9</script><p>其中$d_1(x)$、$d_2(x)$是是两个距离函数，在细胞分割问题中，Lin等用于计算当前像素到最近的和第二近细胞的边界的距离。这个损失函数是在著名的U-Net论文中提出来的。</p>
+<p>小结：对交叉熵损失函数进行加权后，可以削弱样本类数量不平衡引起的问题</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
-<li>苏剑林. (Dec. 01, 2015). 《“熵”不起：从熵、最大熵原理到最大熵模型（一） 》[Blog post]. Retrieved from <a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/3534">https://spaces.ac.cn/archives/3534</a></li>
-<li>吴军《数学之美》</li>
+<li>基于深度学习的自然图像和医学图像分割：损失函数设计(1) - 李慕清的文章 - 知乎 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/106005484">https://zhuanlan.zhihu.com/p/106005484</a></li>
 </ol>
 
             </div>
@@ -296,7 +278,7 @@ Js(f(x)||g(x))= \cfrac{1}{2}[KL(f(x)||g(x))+KL(g(x)||f(x))]
                     
                       <a class="hover-with-bg" href="/categories/machine-learning/">machine learning</a>
                     
-                      <a class="hover-with-bg" href="/categories/machine-learning/basic-theory/">basic theory</a>
+                      <a class="hover-with-bg" href="/categories/machine-learning/image-segmentation/">image segmentation</a>
                     
                   </div>
                 
@@ -306,7 +288,7 @@ Js(f(x)||g(x))= \cfrac{1}{2}[KL(f(x)||g(x))+KL(g(x)||f(x))]
                     
                       <a class="hover-with-bg" href="/tags/machine-learning/">machine learning</a>
                     
-                      <a class="hover-with-bg" href="/tags/entropy/">entropy</a>
+                      <a class="hover-with-bg" href="/tags/loss-function/">loss function</a>
                     
                   </div>
                 
@@ -319,18 +301,12 @@ Js(f(x)||g(x))= \cfrac{1}{2}[KL(f(x)||g(x))+KL(g(x)||f(x))]
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/24/loss-functon/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">基于深度学习的图像分割的loss function</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/12/17/radiomics-lit-study/">
-                        <span class="hidden-mobile">Radiomics literature study</span>
+                      <a href="/2021/01/24/Entropy/">
+                        <span class="hidden-mobile">Entropy</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
