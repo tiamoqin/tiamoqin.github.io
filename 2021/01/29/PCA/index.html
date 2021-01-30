@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Entropy - Hexo</title>
+  <title>PCA - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Entropy">
+            <span class="h2" id="subtitle" title="PCA">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-01-24 10:17" pubdate>
-        2021年1月24日 上午
+      <time datetime="2021-01-29 18:02" pubdate>
+        2021年1月29日 晚上
       </time>
     </span>
   
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.5k 字
+      2.1k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      28
+      24
        分钟
     </span>
   
@@ -224,82 +224,85 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Entropy</h1>
+            <h1 style="display: none">PCA</h1>
             
             <div class="markdown-body">
-              <h1 id="关于“熵Entropy”的整理"><a href="#关于“熵Entropy”的整理" class="headerlink" title="关于“熵Entropy”的整理"></a>关于“熵Entropy”的整理</h1><p>1948年，香农（Claude Shannon）在他著名的论文“通信的数学原理”（<em> A Mathematic Theory of Communication</em>) 中提出了“信息熵”的概念。信息的信息量与其不确定性有着直接的关系。在通俗的介绍中，熵一般有两种解释：<strong>（1）熵是不确定性的度量；（2）熵是信息的度量。</strong>看上去说的不是一回事，其实它们说的就是同一个意思。首先，熵是不确定性的度量，它衡量着我们对某个事物的<strong>“无知程度”</strong>。熵为什么又是信息的度量呢？既然熵代表了我们对事物的无知，那么当我们从“无知”到“完全认识”这个过程中，就会获得一定的信息量，我们开始越无知，那么到达“完全认识”时，获得的信息量就越大，因此，作为不确定性的度量的熵，也可以看作是信息的度量，说准确点，是我们能从中获得的最大的信息量。</p>
-<h2 id="1-信息熵"><a href="#1-信息熵" class="headerlink" title="1. 信息熵"></a>1. 信息熵</h2><p>香农用“比特”（Bit）这个概念来度量信息量。信息量的比特数和所有可能情况的对数函数$\log$ 有关。熵的基本计算公式为：</p>
+              <h1 id="无监督学习之“主成分分析PCA算法“"><a href="#无监督学习之“主成分分析PCA算法“" class="headerlink" title="无监督学习之“主成分分析PCA算法“"></a>无监督学习之“主成分分析PCA算法“</h1><p><strong>主成分分析（principal component analysis，PCA）</strong>是一种常用的<strong>无监督学习方法</strong>，PCA利用<strong>正交变换</strong>把由<strong>线性相关</strong>变量表示的观测数据转换为少数几个由<strong>线性无关</strong>变量表示的数据，线性无关的变量称为主成分。这里，<strong>主成分（principal component，PC）</strong>的个数一般小于原始数据变量个数，因此主成分分析属于<strong>降维分析方法(Dimension reduction)</strong>。</p>
+<p><strong>PCA主要应用场景</strong>：数据压缩；消除冗余；消除数据噪声；数据降维，可视化。</p>
+<p><strong>理论基础</strong>：最大投影方差、最小投影距离和坐标轴相关度等。</p>
+<p><strong>直观理解</strong>：找出数据里最主要的成分，代替原始数据并使损失尽可能的小。</p>
+<h2 id="1-相关线性代数知识回顾"><a href="#1-相关线性代数知识回顾" class="headerlink" title="1. 相关线性代数知识回顾"></a>1. 相关线性代数知识回顾</h2><p>此处只简单罗列几个相关的线性代数知识点，具体可以参考<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/74833836">机器学习01—PCA数学推导</a>、<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343182129">算法理论02 主成分分析PCA</a> 。</p>
+<h3 id="1-1-内积"><a href="#1-1-内积" class="headerlink" title="1.1 内积"></a>1.1 内积</h3><script type="math/tex; mode=display">
+Z=WX
+\tag 1</script><p>其中$W$中的每一个分量向量的模为1，即$||w_i||_2=1$。</p>
+<h3 id="1-2-基变化的矩阵化"><a href="#1-2-基变化的矩阵化" class="headerlink" title="1.2 基变化的矩阵化"></a>1.2 基变化的矩阵化</h3><p>如果我们有m个N维向量，想将其变化为有r个N维向量表示新空间中，那么首先将r个基按行组成矩阵$W$，然后将向量按列组成矩阵$X$，矩阵$W$和$X$相乘的结果就是变换的结果，数学表达式为：</p>
 <script type="math/tex; mode=display">
-H(X)=-\sum_{x \in X}p(x)\log p(x)
-\tag 1</script><p>这里的$\log$可以是自然对数，也可以是以2为底的对数，事实上，任意大于1的底都是成立的，因为换底只不过相当于换了信息的单位。$p(x)$是量$X$取值为$x$的概率。对于连续的概率分布，熵类似地定义为（把求和换成积分）</p>
+{\begin{pmatrix}
+w_1\\
+w_2\\
+\vdots \\
+w_r
+\end{pmatrix}}(x_1,x_2,\cdots,x_m)=
+{\begin{pmatrix}
+w_1x_1 & w_1x_2 & \cdots & w_1x_m\\
+w_2x_1 & w_2x_2 & \cdots & w_2x_m\\
+\vdots & \vdots & \ddots & \vdots\\
+w_rx_1 & w_rx_2 & \cdots & w_rx_m\\
+\end{pmatrix}}
+\tag 2</script><p>根据上式可以知道，r的维度决定了变换后数据的维度，若r小于m，我们可以实现降维的操作，也就是说<strong>我们可以将数据变换到低维的空间中，变换后的维度取决于基的数量</strong>。</p>
+<h3 id="1-3-方差"><a href="#1-3-方差" class="headerlink" title="1.3 方差"></a>1.3 方差</h3><p>数学中方差用于衡量数据的离散程度:</p>
 <script type="math/tex; mode=display">
-H(X)=-\int_{x \in X} p(x)\log p(x)dx
-\tag 2</script><p>$p(x)$是$X$的概率密度函数</p>
-<h2 id="2-信息的相关性与”条件熵”（Conditional-Entropy）"><a href="#2-信息的相关性与”条件熵”（Conditional-Entropy）" class="headerlink" title="2. 信息的相关性与”条件熵”（Conditional Entropy）"></a>2. 信息的相关性与”条件熵”（Conditional Entropy）</h2><p>信息和消除不确定性是相联系的，不确定性假定为$U$，从外部消除这个不确定性唯一的办法是引入信息$I$，而需要引入的信息量取决于这个不确定性的大小，即$I &gt; U $才行。当$I &lt; U $时，这些信息可以消除一部分不确定性，也就是说新的不确定性。</p>
+var(x)=\cfrac{1}{m}\sum_{i=1}^m(x_i-\bar{x})^2
+\tag 3</script><p>其中</p>
 <script type="math/tex; mode=display">
-U^\prime = U - I
-\tag 3</script><p>如果没有信息，任何公式或者数字的游戏都无法排除不确定性。</p>
-<p>在数学上可以严格的证明为什么这些”相关的”信息也能够消除不确定性。为此，需要引入一个条件熵的概念。</p>
-<p>假定$X$和$Y$是两个随机变量，假定我们现在知道了$X$的随机分布$p(X)$,那么也就知道了$X$的熵，如式（1）所示的信息熵公式。现在假定我们还知道$Y$的一些情况，包括它和$X$一起出现的概率，在数学上称为联合概率分布（JointProbability），以及在$Y$取不同值的前提下$X$的概率分布，在数学上称为条件概率分布（Conditional Probability）。定义在$Y$的条件下的条件熵为：</p>
+\bar{x}=\cfrac{1}{m}\sum_{j=1}^mx_j
+\tag 4</script><h3 id="1-4-协方差"><a href="#1-4-协方差" class="headerlink" title="1.4 协方差"></a>1.4 协方差</h3><p>数学中协方差用于衡量数据间的相关性，如果协方差为0，表示数据完全独立，</p>
 <script type="math/tex; mode=display">
-H(X|Y)= -\sum_ {x\in X,y\in Y}p(x,y)\log p(x|y)
-\tag 4</script><p>$H(x) \geqq H(X|Y)$, 也就是说多了$Y$ 的信息之后，关于X的不确定性下降了。在数学上证明了二元模型的不确定性小于一元模型。同理可以定义有两个条件的条件熵</p>
+S=\cfrac{1}{m}\sum_{i=1}^m(x-\bar{x})(x-\bar{x})^T
+\tag 5</script><h2 id="2-优化目标的引出"><a href="#2-优化目标的引出" class="headerlink" title="2.  优化目标的引出"></a>2.  优化目标的引出</h2><h3 id="2-1-方差最大化"><a href="#2-1-方差最大化" class="headerlink" title="2.1 方差最大化"></a>2.1 方差最大化</h3><p>降维问题的优化目标：<strong>将一组N维向量降为R维（0&lt;R&lt;N），其目标是选择R个单位（模为1）的正交基，使得原始数据变换到这组基上后，各字段两两间协方差为0，字段间方差尽可能大，在正交的约束下，取最大的R个方差。</strong></p>
+<h3 id="2-2-投影距离最小化"><a href="#2-2-投影距离最小化" class="headerlink" title="2.2  投影距离最小化"></a>2.2  投影距离最小化</h3><p>利用拉格朗日乘子法得到</p>
 <script type="math/tex; mode=display">
-H(X|Y,Z)=-\sum_ {x\in X,y\in Y,z \in Z}p(x,y,z)\log p(x|y,z)
-\tag 5</script><h2 id="3-互信息（Mutual-information）"><a href="#3-互信息（Mutual-information）" class="headerlink" title="3.  互信息（Mutual information）"></a>3.  互信息（Mutual information）</h2><p>香农在信息论中提出了一个“互信息”的概念作为两个随机事件“相关性”的量化度量。</p>
-<p>假定有两个随机事件$X$和$Y$，它们的互信息定义如下：</p>
+XX^TW=\lambda W
+\tag 6</script><p>因此$W$是由对应于特征值$\lambda$的特征向量组成的矩阵。</p>
+<h3 id="2-3-协方差矩阵对角化"><a href="#2-3-协方差矩阵对角化" class="headerlink" title="2.3 协方差矩阵对角化"></a>2.3 协方差矩阵对角化</h3><p>字段内方差最大，字段间协方差为0，这等价于将协方差矩阵对角化，即化为除对角线外的其它元素均为0，并且在对角线上将元素从大到小从上往下依次排列，我们只要取前R个就达到了优化目标！</p>
+<p>设原始数据矩阵$X$对应的协方差矩阵为S，而$W$是一组基按行组成的矩阵，设$Z=WX$，则$Z$为$X$对$W$做基变换后的数据，设$Z$的协方差矩阵为D，我们推导一下D与S的关系：</p>
 <script type="math/tex; mode=display">
-I(X:Y)= \sum_{x \in X, y \in Y}p(x,y)\log \cfrac{p(x,y)}{p(x)p(y)}
-\tag 6</script><p>这个互信息熵是随机事件$X$的不确定性或者说熵$H(x)$，以及在知道随机事件$Y$下的不确定性，或者说条件熵$H(X|Y)$之间的<strong>差异</strong>，即</p>
+D=\sum(z-\bar{z})(z-\bar{z})^T
+=W(\sum(x-\bar{x})(x-\bar{x})^T)W^T
+=WSW^T
+\tag 7</script><p><strong>寻找一个矩阵$W$，满足$WSW^T$是一个对角矩阵，并且对角元素从上到下从大到小依次排列，那么$W$的前R行就是要寻找的基，用$W$的前R行组成的矩阵乘以原始矩阵$X$就使得$X$从N维降到了R维并且可以尽可能的保存原有数据的信息</strong>。</p>
+<p>由上面的推导可知，协方差矩阵S是一个对称矩阵，根据对称矩阵的两个重要性质可知：一个n行n列的实对称矩阵一定可以找到n个单位正交特征向量，设这n个特征向量为 $E=(e^1,e^2,\cdots,e^n)$我们将其按列组成矩阵：则</p>
 <script type="math/tex; mode=display">
-I(X:Y)=H(X)-H(X|Y)
-\tag 7</script><p>所以，所谓两个事件相关性的量化度量，就是在了解了其中一个$Y$的前提下，对消除另一个$X$不确定性所提供的信息量。需要讲一下，互信息是一个取值在$0$到$min(H(x)，H(y))$之间的函数，当$X$和$Y$完全相关时，它的取值是$H(X)$；当二者完全无关时，它的取值时$0$。</p>
-<h2 id="4-相对熵（Relative-Entropy）"><a href="#4-相对熵（Relative-Entropy）" class="headerlink" title="4. 相对熵（Relative Entropy）"></a>4. 相对熵（Relative Entropy）</h2><p>”相对熵“，在有些文献中也被称为”交叉熵“，相对熵用来衡量相关性，但和变量的互信息不同，它用来衡量两个取值为正数的函数的相对性，它的定义如下：</p>
+E^TSE=
+{\begin{pmatrix}
+\lambda_1&&&\\
+&\lambda_2&&\\
+&&\ddots&\\
+&&&\lambda_n
+\end{pmatrix}}
+\tag 8</script><p>到这里我们就已经找到了我们需要的矩阵$W=E^T$,即</p>
 <script type="math/tex; mode=display">
-KL(f(x)||g(x))= \sum_{x \in X}f(x)\cdot \log \cfrac{f(x)}{g(x)}
-\tag 8</script><p>KL代表KL散度，有如下三条结论：</p>
-<ol>
-<li>对于两个完全相同的函数，他们的相对熵等于零。</li>
-<li>相对熵越大，两个函数差异越大；反之，相对熵越小，两个函数差异越小。</li>
-<li><strong>对于概率分布或者概率密度函数，如果取值均大于零，相对熵可以度量两个随机分布的差异性。</strong></li>
-</ol>
-<p>需要指出的是相对熵是不对称的，即</p>
+XX^TW=\lambda W=\lambda E^T
+\tag 9</script><p>因此$D$是对角矩阵Diagonal matrix。</p>
+<p>$W$是协方差矩阵的特征向量单位化后按行排列出的矩阵，其中每一行都是S的一个特征向量，如果设$W$按照式(7)中特征值的大小从大到小将特征向量从上往下排列，则用$W$的前K行组成的矩阵乘以原始数据矩阵$X$，就得到了我们需要的矩阵$Z$，这就是PCA部的数学推导！</p>
+<h2 id="3-PCA-的算法步骤"><a href="#3-PCA-的算法步骤" class="headerlink" title="3. PCA 的算法步骤"></a>3. PCA 的算法步骤</h2><p>设有m条N维数据：<br>①将原始数据按列组成N行m列矩阵$X$;<br>②将$X$的每一行（代表一个属性字段）进行0均值化；<br>③求出协方差矩阵$S=\cfrac{1}{m}XX^T$ ;<br>④求出协方差矩阵的特征值及对应的特征向量；<br>⑤将特征向量按对应的特征值从上往下从大到小依次排列成矩阵；<br>⑥取前K行组成矩阵$W$；<br>⑦$Z=WX$即为降维到K维后的数据</p>
+<h2 id="4-SVD在PCA中的使用"><a href="#4-SVD在PCA中的使用" class="headerlink" title="4. SVD在PCA中的使用"></a>4. SVD在PCA中的使用</h2><p>奇异值分解(Singular Value Decomposition，SVD)是在机器学习领域广泛应用的算法，它可以用于降维算法中的特征分解。</p>
 <script type="math/tex; mode=display">
-KL(f(x)||g(x)) \ne KL(g(x)||f(x))
-\tag 9</script><p>为了让它对称，詹森和香农提出一种新的相对熵的计算方法，将上面的不等式两边取平均，即</p>
-<script type="math/tex; mode=display">
-JS(f(x)||g(x))= \cfrac{1}{2}[KL(f(x)||g(x))+KL(g(x)||f(x))]
-\tag {10}</script><p>JS表示JS散度。</p>
-<h3 id="交叉熵Cross-Entropy"><a href="#交叉熵Cross-Entropy" class="headerlink" title="交叉熵Cross-Entropy"></a>交叉熵Cross-Entropy</h3><p>在图像分割中，相关的损失函数中包含了基于分布的二元交叉熵（Binary Cross-Entropy）、加权交叉熵（Weighted Cross-Entropy）和平衡交叉熵（Balanced Cross-Entropy）。具体可参考<a target="_blank" rel="noopener" href="http://tiamoqin.me/2021/01/24/loss-functon/">基于深度学习的自然图像和医学图像分割之”损失函数“</a>。</p>
-<p><strong>二元交叉熵</strong></p>
-<p>交叉熵的损失函数单独评估每个像素矢量的类预测，然后对所有像素求平均值，所以我们可以认为图像中的像素被平等的学习了。但是，医学图像中常出现类别不均衡 （class imbalance）的问题，由此导致训练会被像素较多的类主导，对于较小的物体很难学习到其特征，从而降低网络的有效性。</p>
-<p>最好的使用场景是不同的类别间有均匀分布的数据，是基于伯努利分布的损失函数。</p>
-<p><strong>加权二元交叉熵</strong></p>
-<p>加权二元交叉熵（WCE）是二元交叉熵变量的一个变种。在这个例子中，正的例子被一些系数加权。它广泛用于倾斜数据的情况。</p>
-<p>加入的权值用于调整假阴性和假阳性。如果你想减少假阴性的数量就设置权值大于1，同样地，如果想要减少假阳性的数量就设置权值小于1.权值是用于正例的系数。</p>
-<p>应用场景：广泛应用于偏斜数据集，通过系数来衡量。</p>
-<p><strong>平衡交叉熵</strong></p>
-<p>平衡交叉熵（BCE）类似于加权交叉熵。唯一的区别是，除了正例子，我们还对负示例进行了加权。</p>
-<p>应用场景：与加权交叉熵类似，广泛应用于倾斜数据集，它分别对正样本和负样本进行加权。</p>
-<h2 id="5-最大熵原理"><a href="#5-最大熵原理" class="headerlink" title="5. 最大熵原理"></a>5. 最大熵原理</h2><p>人们常用“不要把鸡蛋放在同一个篮子里”——来通俗地解释这个最大熵原理（The Maximum Entropy Principle）。“最大熵”说白了，就是要保留全部的不确定性，将风险降到最小。最大熵原理指出，对一个随机事件的概率分布进行预测时，我们的预测应当满足全部已知的条件，而对未知的情况不要做任何主观假设。（不做主观假设这点很重要。）在这种情况下，概率分布最均匀，预测的风险最小。因为这是概率分布的信息熵最大，所以人们把这种模型叫做“最大熵模型”。匈牙利著名数学家希萨（I. Csiszar)证明，对任何一组不自相矛盾的信息，这个最大熵模型不仅存在，而且是唯一的。此外，他们都有同一个非常简单的形式——指数函数。</p>
-<h3 id="估算概率"><a href="#估算概率" class="headerlink" title="估算概率"></a>估算概率</h3><p>最大熵原理说明为什么我们认为抛硬币时，正负两面的概率都是$\cfrac {1}{2}$。假设正面的概率为$p$，则熵为</p>
-<script type="math/tex; mode=display">
-H(p)=-p \log p-(1-p)\log (1-p)
-\tag {11}</script><p>求导可以算的，当$p=\cfrac {1}{2}$时，$H(p)$最大，如下图所示。</p>
-<p><img src="https://i.loli.net/2021/01/26/74utMy3QwLkZdxI.png" srcset="/img/loading.gif" alt="最大熵原理"></p>
-<p>以上都是假设我们是完全无知的情况下作出的估计。事实上，很多时候我们并没有那么无知，我们可以根据大量的统计，得出一些信息，来完善我们的认识。下面介绍根据统计得出的估计框架。</p>
-<h3 id="估计框架"><a href="#估计框架" class="headerlink" title="估计框架"></a>估计框架</h3><h4 id="离散型概率"><a href="#离散型概率" class="headerlink" title="离散型概率"></a>离散型概率</h4><p>要求信息熵$-\sum_{x \in X}p(x)\log p(x)$的最大值。参考<a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/3552">苏剑林</a>的例子，利用微积分中的<strong>带有约束的极值问题</strong>，方法就是<strong>拉格朗日乘子法</strong>，即引入参数$\lambda$，那么原问题等价于式子的极值，得出</p>
-<script type="math/tex; mode=display">
-p(x)=\cfrac{1}{Z}\exp (-\sum_{i=1}^k \lambda_if_i(x))
-\tag {12}</script><p>其中$Z$是归一化因子，即</p>
-<script type="math/tex; mode=display">
-Z=\sum_x \exp(-\sum_{i=1}^k\lambda_if_i(x))
-\tag {13}</script><p>类似的方法，连续型概率获得如式（12）、（13）一样的式子。</p>
-<p><em>To be continued</em></p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
-<li>苏剑林. (Dec. 01, 2015). 《“熵”不起：从熵、最大熵原理到最大熵模型（一） 》[Blog post]. Retrieved from <a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/3534">https://spaces.ac.cn/archives/3534</a></li>
-<li>苏剑林. (Dec. 11, 2015). 《“熵”不起：从熵、最大熵原理到最大熵模型（二） 》[Blog post]. Retrieved from <a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/3552">https://spaces.ac.cn/archives/3552</a></li>
-<li>吴军《数学之美》</li>
+A_{m\times n}
+=U_{m\times m}\sum_{m\times n}V_{n\times n}^T
+=U_{m\times k}\sum_{k\times k}V_{k\times n}^T
+\tag {10}</script><p>其中k要比n小很多，也就是一个大的矩阵A可以用三个小的矩阵 $U_{m\times k}$、$\sum_{k\times k}$、$V_{k\times n}^T$来表示。如下图所示，现在我们的矩阵A只需要灰色的部分的三个小矩阵就可以近似描述了。</p>
+<p><img src="https://i.loli.net/2021/01/30/H83UKD5vFCARedb.png" srcset="/img/loading.gif" alt="奇异值分解"></p>
+<p>PCA降维，需要找到样本协方差矩阵$X_TX$的最大的d个特征向量，然后用这最大的d个特征向量张成的矩阵来做低维投影降维。可以看出，在这个过程中需要先求出协方差矩阵$X_TX$ ，当样本数多、样本特征数也多的时候，这个计算量是很大的。</p>
+<p>注意到我们的SVD也可以得到协方差矩阵 $X_TX$最大的d个特征向量张成的矩阵，但是SVD有个好处，有一些SVD的实现算法可以不求先求出协方差矩阵$X_TX$，也能求出我们的右奇异矩阵V。也就是说，我们的PCA算法可以不用做特征分解，而是做SVD来完成。这个方法在样本量很大的时候很有效。实际上，scikit-learn的PCA算法的背后真正的实现就是用的SVD，而不是我们认为的暴力特征分解。但SVD的缺点是<strong>分解出的矩阵解释性往往不强</strong>，有点黑盒子的味道，不过这不影响它的使用。</p>
+<h2 id="5-理解PCA的4个境界-To-be-continued"><a href="#5-理解PCA的4个境界-To-be-continued" class="headerlink" title="5. 理解PCA的4个境界 (To be continued)"></a>5. 理解PCA的4个境界 (<strong><em>To be continued</em></strong>)</h2><p>主成分分析PCA算法：为什么去均值以后的高维矩阵乘以其协方差矩阵的特征向量矩阵就是“投影”？ - 史博的回答 - 知乎 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/30094611/answer/275172932">https://www.zhihu.com/question/30094611/answer/275172932</a></p>
+<p>（上文提到的四个境界，暂时只能理解两个，等搞懂另外两个，继续补充。）</p>
+<h2 id=""><a href="#" class="headerlink" title=" "></a> </h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343182129">算法理论02 主成分分析PCA - Rorschach的文章 - 知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/74833836">机器学习01—PCA数学推导 - 烟雨小夕的文章 - 知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ">台大李宏毅主讲的机器学习课程(2016)</a>，课程主页：<a target="_blank" rel="noopener" href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML16.html">http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML16.html</a> </li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29846048">奇异值分解（SVD） - 漫漫成长的文章 - 知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/30094611/answer/275172932">主成分分析PCA算法：为什么去均值以后的高维矩阵乘以其协方差矩阵的特征向量矩阵就是“投影”？ - 史博的回答 - 知乎</a></li>
 </ol>
 
             </div>
@@ -312,8 +315,6 @@ Z=\sum_x \exp(-\sum_{i=1}^k\lambda_if_i(x))
                     
                       <a class="hover-with-bg" href="/categories/machine-learning/">machine learning</a>
                     
-                      <a class="hover-with-bg" href="/categories/machine-learning/basic-theory/">basic theory</a>
-                    
                   </div>
                 
                 
@@ -322,7 +323,9 @@ Z=\sum_x \exp(-\sum_{i=1}^k\lambda_if_i(x))
                     
                       <a class="hover-with-bg" href="/tags/machine-learning/">machine learning</a>
                     
-                      <a class="hover-with-bg" href="/tags/entropy/">entropy</a>
+                      <a class="hover-with-bg" href="/tags/unsupervised-learning/">unsupervised learning</a>
+                    
+                      <a class="hover-with-bg" href="/tags/dimension-reduction/">dimension reduction</a>
                     
                   </div>
                 
@@ -335,18 +338,12 @@ Z=\sum_x \exp(-\sum_{i=1}^k\lambda_if_i(x))
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/01/24/loss-functon/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">基于深度学习的图像分割的loss function</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2020/12/17/radiomics-lit-study/">
-                        <span class="hidden-mobile">Radiomics literature study</span>
+                      <a href="/2021/01/24/loss-functon/">
+                        <span class="hidden-mobile">基于深度学习的图像分割的loss function</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
