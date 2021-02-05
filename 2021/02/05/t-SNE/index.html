@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>PCA - Hexo</title>
+  <title>t-SNE - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css" />
 
@@ -162,7 +162,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="PCA">
+            <span class="h2" id="subtitle" title="t-SNE">
               
             </span>
 
@@ -172,8 +172,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-01-29 18:02" pubdate>
-        2021年1月29日 晚上
+      <time datetime="2021-02-05 10:04" pubdate>
+        2021年2月5日 上午
       </time>
     </span>
   
@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      2.1k 字
+      1.9k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      24
+      21
        分钟
     </span>
   
@@ -224,85 +224,68 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">PCA</h1>
+            <h1 style="display: none">t-SNE</h1>
             
             <div class="markdown-body">
-              <h1 id="无监督学习之“主成分分析PCA算法“"><a href="#无监督学习之“主成分分析PCA算法“" class="headerlink" title="无监督学习之“主成分分析PCA算法“"></a>无监督学习之“主成分分析PCA算法“</h1><p><strong>主成分分析（principal component analysis，PCA）</strong>是一种常用的<strong>无监督学习方法</strong>，PCA利用<strong>正交变换</strong>把由<strong>线性相关</strong>变量表示的观测数据转换为少数几个由<strong>线性无关</strong>变量表示的数据，线性无关的变量称为主成分。这里，<strong>主成分（principal component，PC）</strong>的个数一般小于原始数据变量个数，因此主成分分析属于<strong>降维分析方法(Dimension reduction)</strong>。</p>
-<p><strong>PCA主要应用场景</strong>：数据压缩；消除冗余；消除数据噪声；数据降维，可视化。</p>
-<p><strong>理论基础</strong>：最大投影方差、最小投影距离和坐标轴相关度等。</p>
-<p><strong>直观理解</strong>：找出数据里最主要的成分，代替原始数据并使损失尽可能的小。</p>
-<h2 id="1-相关线性代数知识回顾"><a href="#1-相关线性代数知识回顾" class="headerlink" title="1. 相关线性代数知识回顾"></a>1. 相关线性代数知识回顾</h2><p>此处只简单罗列几个相关的线性代数知识点，具体可以参考<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/74833836">机器学习01—PCA数学推导</a>、<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343182129">算法理论02 主成分分析PCA</a> 。</p>
-<h3 id="1-1-内积"><a href="#1-1-内积" class="headerlink" title="1.1 内积"></a>1.1 内积</h3><script type="math/tex; mode=display">
-Z=WX
-\tag 1</script><p>其中$W$中的每一个分量向量的模为1，即$||w_i||_2=1$。</p>
-<h3 id="1-2-基变化的矩阵化"><a href="#1-2-基变化的矩阵化" class="headerlink" title="1.2 基变化的矩阵化"></a>1.2 基变化的矩阵化</h3><p>如果我们有m个N维向量，想将其变化为有r个N维向量表示新空间中，那么首先将r个基按行组成矩阵$W$，然后将向量按列组成矩阵$X$，矩阵$W$和$X$相乘的结果就是变换的结果，数学表达式为：</p>
+              <h1 id="无监督学习之“-t分布随机近邻嵌入t-SNE算法”"><a href="#无监督学习之“-t分布随机近邻嵌入t-SNE算法”" class="headerlink" title="无监督学习之“ t分布随机近邻嵌入t-SNE算法”"></a>无监督学习之“ t分布随机近邻嵌入t-SNE算法”</h1><p>引子：跟着“宝可梦”老师，台大李宏毅机器学习课程，我从PCA来到了t-SNE的领域。</p>
+<p>开始正文前，先补充一些关于流形学习的概念和分类：</p>
+<h2 id="1-流形学习"><a href="#1-流形学习" class="headerlink" title="1. 流形学习"></a>1. 流形学习</h2><p>流形学习方法(Manifold Learning)，简称流形学习，自2000年在著名的科学杂志《Science》被首次提出以来，已成为信息科学领域的研究热点。在理论和应用上，流形学习方法都具有重要的研究意义。</p>
+<p>假设数据是均匀采样于一个高维欧氏空间中的低维流形，流形学习就是从高维采样数据中恢复低维流形结构，即找到高维空间中的低维流形，并求出相应的嵌入映射，以实现维数约简或者数据可视化。它是从观测到的现象中去寻找事物的本质，找到产生数据的内在规律。</p>
+<p>简单地理解，流形学习方法可以用来对高维数据降维，如果将维度降到2维或3维，我们就能将原始数据可视化，从而对数据的分布有直观的了解，发现一些可能存在的规律。</p>
+<p>可以将流形学习方法分为线性的和非线性的两种，线性的流形学习方法如我们熟知的主成份分析（PCA），非线性的流形学习方法如等距映射（Isomap）、拉普拉斯特征映射（Laplacian eigenmaps，LE）、局部线性嵌入(Locally-linear embedding，LLE)。关于后几个方法，可参看<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40214106">流形学习概述 - SIGAI的文章 - 知乎</a></p>
+<p><img src="https://i.loli.net/2021/02/05/OMgUxNEjzw3HVlX.jpg" srcset="/img/loading.gif" alt="数据降维.jpg"></p>
+<p>流形学习（manifold learning）假设数据在高维空间的分布位于某一更低维的流形上，基于这个假设来进行数据的分析。对于降维，要保证降维之后的数据同样满足与高维空间流形有关的几何约束关系。除此之外，流形学习还可以用实现聚类，分类以及回归算法。</p>
+<h2 id="2-t-SNE（t-distributed-stochastic-neighbor-embedding"><a href="#2-t-SNE（t-distributed-stochastic-neighbor-embedding" class="headerlink" title="2. t-SNE（t distributed stochastic neighbor embedding)"></a>2. t-SNE（t distributed stochastic neighbor embedding)</h2><p>t-SNE模型是通过SNE演变而来，它跟kmeans等不同，他不能通过训练得到一些东西之后再用于其它数据（比如kmeans可以通过训练得到k个点，再用于其它数据集，而t-SNE只能单独的对数据做操作，也就是说他只有fit_transform，而没有fit操作）。</p>
+<p>SNE是通过仿射(affinitie)变换将数据点映射到概率分布上，主要包括两个步骤：</p>
+<ul>
+<li>SNE构建一个高维对象之间的概率分布，使得相似的对象有更高的概率被选择，而不相似的对象有较低的概率被选择。</li>
+<li>SNE在低维空间里在构建这些点的概率分布，使得这两个概率分布之间尽可能的相似。</li>
+</ul>
+<p>由于SNE存在“crowding problem”(拥挤问题)。因此Hinton等人又提出了t-SNE的方法。与SNE不同，主要如下:</p>
+<ul>
+<li>使用对称版的SNE，简化梯度公式</li>
+<li>低维空间下，使用t分布替代高斯分布表达两点之间的相似度</li>
+</ul>
+<p>SNE是先<strong>将欧几里得距离转换为条件概率来表达点与点之间的相似度</strong>。具体来说，给定一个N个高维的数据$x_1,… ,x_N$,</p>
+<p>SNE首先是计算概率$P_{ij}$，正比于$x_i$和$x_j$之间的相似度。即</p>
 <script type="math/tex; mode=display">
-{\begin{pmatrix}
-w_1\\
-w_2\\
-\vdots \\
-w_r
-\end{pmatrix}}(x_1,x_2,\cdots,x_m)=
-{\begin{pmatrix}
-w_1x_1 & w_1x_2 & \cdots & w_1x_m\\
-w_2x_1 & w_2x_2 & \cdots & w_2x_m\\
-\vdots & \vdots & \ddots & \vdots\\
-w_rx_1 & w_rx_2 & \cdots & w_rx_m\\
-\end{pmatrix}}
-\tag 2</script><p>根据上式可以知道，r的维度决定了变换后数据的维度，若r小于m，我们可以实现降维的操作，也就是说<strong>我们可以将数据变换到低维的空间中，变换后的维度取决于基的数量</strong>。</p>
-<h3 id="1-3-方差"><a href="#1-3-方差" class="headerlink" title="1.3 方差"></a>1.3 方差</h3><p>数学中方差用于衡量数据的离散程度:</p>
+P_{j|i}=\cfrac{exp(-||x_i-x_j||^2)/(2\sigma_i^2)}{\sum_{k\ne i}exp(-||x_i-x_k||^2)/(2\sigma_i^2)}
+\tag 1</script><p>其中$p_{j|i}$代表$x_j$是$x_i$的”邻居“的概率，值越大，说明两者越”临近“；$\sigma_i$是$x_i$最邻近的N个点的方差值，其中N是一个超参数，定义为perplexity困惑度的概念。<strong>SNE对困惑度的调整比较有鲁棒性，通常选择5-50之间</strong>，给定之后，使用二分搜索的方式寻找合适的$\sigma$。</p>
+<p>对于低维数据集中的两个点$y_i$和$y_j$，定义公式如下：</p>
 <script type="math/tex; mode=display">
-var(x)=\cfrac{1}{m}\sum_{i=1}^m(x_i-\bar{x})^2
-\tag 3</script><p>其中</p>
+q_{j|i}=\cfrac{exp(-||y_i-y_j||^2)}{\sum_{k\ne i}exp(-||y_i-y_k||^2)}
+\tag 2</script><p>$q_{j|i}$的意义和$p_{j|i}$的意义相同，低维数据最开始是随机生成，后面根据$p_{j|i}$和$q_ {j|i}$定义loss函数，通过调整${y_1, y_2, y_3,…}$的值最小化loss函数，由此生成最终的低维数据。</p>
+<p>定义KL散度Kullback-Leibler divergence 作为loss函数</p>
 <script type="math/tex; mode=display">
-\bar{x}=\cfrac{1}{m}\sum_{j=1}^mx_j
-\tag 4</script><h3 id="1-4-协方差"><a href="#1-4-协方差" class="headerlink" title="1.4 协方差"></a>1.4 协方差</h3><p>数学中协方差用于衡量数据间的相关性，如果协方差为0，表示数据完全独立，</p>
+C=\sum_iKL(P_i||Q_i)=\sum_i\sum_jp_{j|i}\log\cfrac{p_{j|i}}{q_{j|i}}
+\tag 3</script><p>t-SNE用联合概率分布替代公式(1)中的条件概率分布，则loss函数变为</p>
 <script type="math/tex; mode=display">
-S=\cfrac{1}{m}\sum_{i=1}^m(x-\bar{x})(x-\bar{x})^T
-\tag 5</script><h2 id="2-优化目标的引出"><a href="#2-优化目标的引出" class="headerlink" title="2.  优化目标的引出"></a>2.  优化目标的引出</h2><h3 id="2-1-方差最大化"><a href="#2-1-方差最大化" class="headerlink" title="2.1 方差最大化"></a>2.1 方差最大化</h3><p>降维问题的优化目标：<strong>将一组N维向量降为R维（0&lt;R&lt;N），其目标是选择R个单位（模为1）的正交基，使得原始数据变换到这组基上后，各字段两两间协方差为0，字段间方差尽可能大，在正交的约束下，取最大的R个方差。</strong></p>
-<h3 id="2-2-投影距离最小化"><a href="#2-2-投影距离最小化" class="headerlink" title="2.2  投影距离最小化"></a>2.2  投影距离最小化</h3><p>利用拉格朗日乘子法得到</p>
+C=\sum_iKL(P||Q)=\sum_i\sum_jp_{i,j}\log\cfrac{p_{ij}}{q_{ij}}
+\tag 4</script><p>这里的$p_{ii}$,$q_{ii}$为零，即为对称SNE，假设了对于任意$i$，$p_{ij}=p_{ji}$,$q_{ij}=q_{ji}$</p>
+<p>对称SNE实际上在高维度下，另外一种减轻”拥挤问题”的方法：在高维空间下，使用高斯分布将距离转换为概率分布，在低维空间下，使用更加偏重长尾分布的方式来将距离转换为概率分布，使得高维度下中低等的距离在映射后能够有一个较大的距离。使用了t分布之后的q变化，如下:</p>
 <script type="math/tex; mode=display">
-XX^TW=\lambda W
-\tag 6</script><p>因此$W$是由对应于特征值$\lambda$的特征向量组成的矩阵。</p>
-<h3 id="2-3-协方差矩阵对角化"><a href="#2-3-协方差矩阵对角化" class="headerlink" title="2.3 协方差矩阵对角化"></a>2.3 协方差矩阵对角化</h3><p>字段内方差最大，字段间协方差为0，这等价于将协方差矩阵对角化，即化为除对角线外的其它元素均为0，并且在对角线上将元素从大到小从上往下依次排列，我们只要取前R个就达到了优化目标！</p>
-<p>设原始数据矩阵$X$对应的协方差矩阵为S，而$W$是一组基按行组成的矩阵，设$Z=WX$，则$Z$为$X$对$W$做基变换后的数据，设$Z$的协方差矩阵为D，我们推导一下D与S的关系：</p>
+q_{ij}=\cfrac{(1+||y_i-y_j||^2)^{-1}}{\sum_{k\ne i}(1+||y_i-y_k||^2)^{-1}}
+\tag 5</script><p>此外，t分布是无限多个高斯分布的叠加，计算上不是指数的，会方便很多。优化的梯度如下:</p>
 <script type="math/tex; mode=display">
-D=\sum(z-\bar{z})(z-\bar{z})^T
-=W(\sum(x-\bar{x})(x-\bar{x})^T)W^T
-=WSW^T
-\tag 7</script><p><strong>寻找一个矩阵$W$，满足$WSW^T$是一个对角矩阵，并且对角元素从上到下从大到小依次排列，那么$W$的前R行就是要寻找的基，用$W$的前R行组成的矩阵乘以原始矩阵$X$就使得$X$从N维降到了R维并且可以尽可能的保存原有数据的信息</strong>。</p>
-<p>由上面的推导可知，协方差矩阵S是一个对称矩阵，根据对称矩阵的两个重要性质可知：一个n行n列的实对称矩阵一定可以找到n个单位正交特征向量，设这n个特征向量为 $E=(e^1,e^2,\cdots,e^n)$我们将其按列组成矩阵：则</p>
-<script type="math/tex; mode=display">
-E^TSE=
-{\begin{pmatrix}
-\lambda_1&&&\\
-&\lambda_2&&\\
-&&\ddots&\\
-&&&\lambda_n
-\end{pmatrix}}
-\tag 8</script><p>到这里我们就已经找到了我们需要的矩阵$W=E^T$,即</p>
-<script type="math/tex; mode=display">
-XX^TW=\lambda W=\lambda E^T
-\tag 9</script><p>因此$D$是对角矩阵Diagonal matrix。</p>
-<p>$W$是协方差矩阵的特征向量单位化后按行排列出的矩阵，其中每一行都是S的一个特征向量，如果设$W$按照式(7)中特征值的大小从大到小将特征向量从上往下排列，则用$W$的前K行组成的矩阵乘以原始数据矩阵$X$，就得到了我们需要的矩阵$Z$，这就是PCA部的数学推导！</p>
-<h2 id="3-PCA-的算法步骤"><a href="#3-PCA-的算法步骤" class="headerlink" title="3. PCA 的算法步骤"></a>3. PCA 的算法步骤</h2><p>设有m条N维数据：<br>①将原始数据按列组成N行m列矩阵$X$;<br>②将$X$的每一行（代表一个属性字段）进行0均值化；<br>③求出协方差矩阵$S=\cfrac{1}{m}XX^T$ ;<br>④求出协方差矩阵的特征值及对应的特征向量；<br>⑤将特征向量按对应的特征值从上往下从大到小依次排列成矩阵；<br>⑥取前K行组成矩阵$W$；<br>⑦$Z=WX$即为降维到K维后的数据</p>
-<h2 id="4-SVD在PCA中的使用"><a href="#4-SVD在PCA中的使用" class="headerlink" title="4. SVD在PCA中的使用"></a>4. SVD在PCA中的使用</h2><p>奇异值分解(Singular Value Decomposition，SVD)是在机器学习领域广泛应用的算法，它可以用于降维算法中的特征分解。</p>
-<script type="math/tex; mode=display">
-A_{m\times n}
-=U_{m\times m}\sum_{m\times n}V_{n\times n}^T
-=U_{m\times k}\sum_{k\times k}V_{k\times n}^T
-\tag {10}</script><p>其中k要比n小很多，也就是一个大的矩阵A可以用三个小的矩阵 $U_{m\times k}$、$\sum_{k\times k}$、$V_{k\times n}^T$来表示。如下图所示，现在我们的矩阵A只需要灰色的部分的三个小矩阵就可以近似描述了。</p>
-<p><img src="https://i.loli.net/2021/01/30/H83UKD5vFCARedb.png" srcset="/img/loading.gif" alt="奇异值分解"></p>
-<p>PCA降维，需要找到样本协方差矩阵$X_TX$的最大的d个特征向量，然后用这最大的d个特征向量张成的矩阵来做低维投影降维。可以看出，在这个过程中需要先求出协方差矩阵$X_TX$ ，当样本数多、样本特征数也多的时候，这个计算量是很大的。</p>
-<p>注意到我们的SVD也可以得到协方差矩阵 $X_TX$最大的d个特征向量张成的矩阵，但是SVD有个好处，有一些SVD的实现算法可以不求先求出协方差矩阵$X_TX$，也能求出我们的右奇异矩阵V。也就是说，我们的PCA算法可以不用做特征分解，而是做SVD来完成。这个方法在样本量很大的时候很有效。实际上，scikit-learn的PCA算法的背后真正的实现就是用的SVD，而不是我们认为的暴力特征分解。但SVD的缺点是<strong>分解出的矩阵解释性往往不强</strong>，有点黑盒子的味道，不过这不影响它的使用。</p>
-<h2 id="5-理解PCA的4个境界-To-be-continued"><a href="#5-理解PCA的4个境界-To-be-continued" class="headerlink" title="5. 理解PCA的4个境界 (To be continued)"></a>5. 理解PCA的4个境界 (<strong><em>To be continued</em></strong>)</h2><p>主成分分析PCA算法：为什么去均值以后的高维矩阵乘以其协方差矩阵的特征向量矩阵就是“投影”？ - 史博的回答 - 知乎 <a target="_blank" rel="noopener" href="https://www.zhihu.com/question/30094611/answer/275172932">https://www.zhihu.com/question/30094611/answer/275172932</a></p>
-<p>（上文提到的四个境界，暂时只能理解两个，等搞懂另外两个，继续补充。）</p>
-<h2 id=""><a href="#" class="headerlink" title=" "></a> </h2><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343182129">算法理论02 主成分分析PCA - Rorschach的文章 - 知乎</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/74833836">机器学习01—PCA数学推导 - 烟雨小夕的文章 - 知乎</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/channel/UC2ggjtuuWvxrHHHiaDH1dlQ">台大李宏毅主讲的机器学习课程(2016)</a>，课程主页：<a target="_blank" rel="noopener" href="http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML16.html">http://speech.ee.ntu.edu.tw/~tlkagk/courses_ML16.html</a> </li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29846048">奇异值分解（SVD） - 漫漫成长的文章 - 知乎</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/30094611/answer/275172932">主成分分析PCA算法：为什么去均值以后的高维矩阵乘以其协方差矩阵的特征向量矩阵就是“投影”？ - 史博的回答 - 知乎</a></li>
+\cfrac{\delta C}{\delta {y_i}}=4\sum_j(p_{ij}-q_{ij})(y_i-y_j)(1+||y_i-y_j||^2)^{-1}
+\tag 6</script><p><img src="https://i.loli.net/2021/02/05/NTv9143BeUM57YE.png" srcset="/img/loading.gif" alt="sne_norm_t_dist_cost.png"></p>
+<p>t-SNE的有效性，也可以从上图中看到：横轴表示距离，纵轴表示相似度, 可以看到，对于较大相似度的点，t分布在低维空间中的距离需要稍小一点；而对于低相似度的点，t分布在低维空间中的距离需要更远。这恰好满足了我们的需求，即同一簇内的点(距离较近)聚合的更紧密，不同簇之间的点(距离较远)更加疏远。</p>
+<p>总结一下，t-SNE的梯度更新有两大优势：</p>
+<ul>
+<li>对于不相似的点，用一个较小的距离会产生较大的梯度来让这些点排斥开来。</li>
+<li>这种排斥又不会无限大(梯度中分母)，避免不相似的点距离太远。</li>
+</ul>
+<p>主要不足有四个:</p>
+<ul>
+<li>主要用于可视化，很难用于其他目的。比如测试集合降维，因为他没有显式的预估部分，不能在测试集合直接降维；比如降维到10维，因为t分布偏重长尾，1个自由度的t分布很难保存好局部特征，可能需要设置成更高的自由度。</li>
+<li>t-SNE倾向于保存局部特征，对于本征维数(intrinsic dimensionality)本身就很高的数据集，是不可能完整的映射到2-3维的空间</li>
+<li>t-SNE没有唯一最优解，且没有预估部分。如果想要做预估，可以考虑降维之后，再构建一个回归方程之类的模型去做。但是要注意，t-SNE中距离本身是没有意义，都是概率分布问题。</li>
+<li>训练太慢。有很多基于树的算法在t-SNE上做一些改进。</li>
+</ul>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a target="_blank" rel="noopener" href="http://www.datakit.cn/blog/2017/02/05/t_sne_full.html">t-SNE完整笔记</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102668730">流形学习-高维数据的降维与可视化 - 屁屁烫的文章 - 知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40214106">流形学习概述 - SIGAI的文章 - 知乎</a></li>
 </ol>
 
             </div>
@@ -338,18 +321,12 @@ A_{m\times n}
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/02/05/t-SNE/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">t-SNE</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/01/24/loss-functon/">
-                        <span class="hidden-mobile">基于深度学习的图像分割的loss function</span>
+                      <a href="/2021/01/29/PCA/">
+                        <span class="hidden-mobile">PCA</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>t-SNE</title>
+    <link href="/2021/02/05/t-SNE/"/>
+    <url>/2021/02/05/t-SNE/</url>
+    
+    <content type="html"><![CDATA[<h1 id="无监督学习之“-t分布随机近邻嵌入t-SNE算法”"><a href="#无监督学习之“-t分布随机近邻嵌入t-SNE算法”" class="headerlink" title="无监督学习之“ t分布随机近邻嵌入t-SNE算法”"></a>无监督学习之“ t分布随机近邻嵌入t-SNE算法”</h1><p>引子：跟着“宝可梦”老师，台大李宏毅机器学习课程，我从PCA来到了t-SNE的领域。</p><p>开始正文前，先补充一些关于流形学习的概念和分类：</p><h2 id="1-流形学习"><a href="#1-流形学习" class="headerlink" title="1. 流形学习"></a>1. 流形学习</h2><p>流形学习方法(Manifold Learning)，简称流形学习，自2000年在著名的科学杂志《Science》被首次提出以来，已成为信息科学领域的研究热点。在理论和应用上，流形学习方法都具有重要的研究意义。</p><p>假设数据是均匀采样于一个高维欧氏空间中的低维流形，流形学习就是从高维采样数据中恢复低维流形结构，即找到高维空间中的低维流形，并求出相应的嵌入映射，以实现维数约简或者数据可视化。它是从观测到的现象中去寻找事物的本质，找到产生数据的内在规律。</p><p>简单地理解，流形学习方法可以用来对高维数据降维，如果将维度降到2维或3维，我们就能将原始数据可视化，从而对数据的分布有直观的了解，发现一些可能存在的规律。</p><p>可以将流形学习方法分为线性的和非线性的两种，线性的流形学习方法如我们熟知的主成份分析（PCA），非线性的流形学习方法如等距映射（Isomap）、拉普拉斯特征映射（Laplacian eigenmaps，LE）、局部线性嵌入(Locally-linear embedding，LLE)。关于后几个方法，可参看<a href="https://zhuanlan.zhihu.com/p/40214106">流形学习概述 - SIGAI的文章 - 知乎</a></p><p><img src="https://i.loli.net/2021/02/05/OMgUxNEjzw3HVlX.jpg" alt="数据降维.jpg"></p><p>流形学习（manifold learning）假设数据在高维空间的分布位于某一更低维的流形上，基于这个假设来进行数据的分析。对于降维，要保证降维之后的数据同样满足与高维空间流形有关的几何约束关系。除此之外，流形学习还可以用实现聚类，分类以及回归算法。</p><h2 id="2-t-SNE（t-distributed-stochastic-neighbor-embedding"><a href="#2-t-SNE（t-distributed-stochastic-neighbor-embedding" class="headerlink" title="2. t-SNE（t distributed stochastic neighbor embedding)"></a>2. t-SNE（t distributed stochastic neighbor embedding)</h2><p>t-SNE模型是通过SNE演变而来，它跟kmeans等不同，他不能通过训练得到一些东西之后再用于其它数据（比如kmeans可以通过训练得到k个点，再用于其它数据集，而t-SNE只能单独的对数据做操作，也就是说他只有fit_transform，而没有fit操作）。</p><p>SNE是通过仿射(affinitie)变换将数据点映射到概率分布上，主要包括两个步骤：</p><ul><li>SNE构建一个高维对象之间的概率分布，使得相似的对象有更高的概率被选择，而不相似的对象有较低的概率被选择。</li><li>SNE在低维空间里在构建这些点的概率分布，使得这两个概率分布之间尽可能的相似。</li></ul><p>由于SNE存在“crowding problem”(拥挤问题)。因此Hinton等人又提出了t-SNE的方法。与SNE不同，主要如下:</p><ul><li>使用对称版的SNE，简化梯度公式</li><li>低维空间下，使用t分布替代高斯分布表达两点之间的相似度</li></ul><p>SNE是先<strong>将欧几里得距离转换为条件概率来表达点与点之间的相似度</strong>。具体来说，给定一个N个高维的数据$x_1,… ,x_N$,</p><p>SNE首先是计算概率$P_{ij}$，正比于$x_i$和$x_j$之间的相似度。即</p><script type="math/tex; mode=display">P_{j|i}=\cfrac{exp(-||x_i-x_j||^2)/(2\sigma_i^2)}{\sum_{k\ne i}exp(-||x_i-x_k||^2)/(2\sigma_i^2)}\tag 1</script><p>其中$p_{j|i}$代表$x_j$是$x_i$的”邻居“的概率，值越大，说明两者越”临近“；$\sigma_i$是$x_i$最邻近的N个点的方差值，其中N是一个超参数，定义为perplexity困惑度的概念。<strong>SNE对困惑度的调整比较有鲁棒性，通常选择5-50之间</strong>，给定之后，使用二分搜索的方式寻找合适的$\sigma$。</p><p>对于低维数据集中的两个点$y_i$和$y_j$，定义公式如下：</p><script type="math/tex; mode=display">q_{j|i}=\cfrac{exp(-||y_i-y_j||^2)}{\sum_{k\ne i}exp(-||y_i-y_k||^2)}\tag 2</script><p>$q_{j|i}$的意义和$p_{j|i}$的意义相同，低维数据最开始是随机生成，后面根据$p_{j|i}$和$q_ {j|i}$定义loss函数，通过调整${y_1, y_2, y_3,…}$的值最小化loss函数，由此生成最终的低维数据。</p><p>定义KL散度Kullback-Leibler divergence 作为loss函数</p><script type="math/tex; mode=display">C=\sum_iKL(P_i||Q_i)=\sum_i\sum_jp_{j|i}\log\cfrac{p_{j|i}}{q_{j|i}}\tag 3</script><p>t-SNE用联合概率分布替代公式(1)中的条件概率分布，则loss函数变为</p><script type="math/tex; mode=display">C=\sum_iKL(P||Q)=\sum_i\sum_jp_{i,j}\log\cfrac{p_{ij}}{q_{ij}}\tag 4</script><p>这里的$p_{ii}$,$q_{ii}$为零，即为对称SNE，假设了对于任意$i$，$p_{ij}=p_{ji}$,$q_{ij}=q_{ji}$</p><p>对称SNE实际上在高维度下，另外一种减轻”拥挤问题”的方法：在高维空间下，使用高斯分布将距离转换为概率分布，在低维空间下，使用更加偏重长尾分布的方式来将距离转换为概率分布，使得高维度下中低等的距离在映射后能够有一个较大的距离。使用了t分布之后的q变化，如下:</p><script type="math/tex; mode=display">q_{ij}=\cfrac{(1+||y_i-y_j||^2)^{-1}}{\sum_{k\ne i}(1+||y_i-y_k||^2)^{-1}}\tag 5</script><p>此外，t分布是无限多个高斯分布的叠加，计算上不是指数的，会方便很多。优化的梯度如下:</p><script type="math/tex; mode=display">\cfrac{\delta C}{\delta {y_i}}=4\sum_j(p_{ij}-q_{ij})(y_i-y_j)(1+||y_i-y_j||^2)^{-1}\tag 6</script><p><img src="https://i.loli.net/2021/02/05/NTv9143BeUM57YE.png" alt="sne_norm_t_dist_cost.png"></p><p>t-SNE的有效性，也可以从上图中看到：横轴表示距离，纵轴表示相似度, 可以看到，对于较大相似度的点，t分布在低维空间中的距离需要稍小一点；而对于低相似度的点，t分布在低维空间中的距离需要更远。这恰好满足了我们的需求，即同一簇内的点(距离较近)聚合的更紧密，不同簇之间的点(距离较远)更加疏远。</p><p>总结一下，t-SNE的梯度更新有两大优势：</p><ul><li>对于不相似的点，用一个较小的距离会产生较大的梯度来让这些点排斥开来。</li><li>这种排斥又不会无限大(梯度中分母)，避免不相似的点距离太远。</li></ul><p>主要不足有四个:</p><ul><li>主要用于可视化，很难用于其他目的。比如测试集合降维，因为他没有显式的预估部分，不能在测试集合直接降维；比如降维到10维，因为t分布偏重长尾，1个自由度的t分布很难保存好局部特征，可能需要设置成更高的自由度。</li><li>t-SNE倾向于保存局部特征，对于本征维数(intrinsic dimensionality)本身就很高的数据集，是不可能完整的映射到2-3维的空间</li><li>t-SNE没有唯一最优解，且没有预估部分。如果想要做预估，可以考虑降维之后，再构建一个回归方程之类的模型去做。但是要注意，t-SNE中距离本身是没有意义，都是概率分布问题。</li><li>训练太慢。有很多基于树的算法在t-SNE上做一些改进。</li></ul><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol><li><a href="http://www.datakit.cn/blog/2017/02/05/t_sne_full.html">t-SNE完整笔记</a></li><li><a href="https://zhuanlan.zhihu.com/p/102668730">流形学习-高维数据的降维与可视化 - 屁屁烫的文章 - 知乎</a></li><li><a href="https://zhuanlan.zhihu.com/p/40214106">流形学习概述 - SIGAI的文章 - 知乎</a></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>machine learning</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>machine learning</tag>
+      
+      <tag>unsupervised learning</tag>
+      
+      <tag>dimension reduction</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>PCA</title>
     <link href="/2021/01/29/PCA/"/>
     <url>/2021/01/29/PCA/</url>
