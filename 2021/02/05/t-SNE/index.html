@@ -227,7 +227,7 @@
             <h1 style="display: none">t-SNE</h1>
             
             <div class="markdown-body">
-              <h1 id="无监督学习之“-t分布随机近邻嵌入t-SNE算法”"><a href="#无监督学习之“-t分布随机近邻嵌入t-SNE算法”" class="headerlink" title="无监督学习之“ t分布随机近邻嵌入t-SNE算法”"></a>无监督学习之“ t分布随机近邻嵌入t-SNE算法”</h1><p>引子：跟着“宝可梦”老师，台大李宏毅机器学习课程，我从PCA来到了t-SNE的领域。</p>
+              <h1 id="无监督学习之“-t分布随机近邻嵌入t-SNE算法”"><a href="#无监督学习之“-t分布随机近邻嵌入t-SNE算法”" class="headerlink" title="无监督学习之“ t分布随机近邻嵌入t-SNE算法”"></a>无监督学习之“ t分布随机近邻嵌入t-SNE算法”</h1><p>引子：跟着“宝可梦”老师，台大李宏毅机器学习课程，我从PCA来到了t-SNE的领域。课堂笔记可参看<a target="_blank" rel="noopener" href="https://blog.csdn.net/dugudaibo/article/details/79076000">无监督学习：邻域嵌入方法(Neighbor Embedding)</a></p>
 <p>开始正文前，先补充一些关于流形学习的概念和分类：</p>
 <h2 id="1-流形学习"><a href="#1-流形学习" class="headerlink" title="1. 流形学习"></a>1. 流形学习</h2><p>流形学习方法(Manifold Learning)，简称流形学习，自2000年在著名的科学杂志《Science》被首次提出以来，已成为信息科学领域的研究热点。在理论和应用上，流形学习方法都具有重要的研究意义。</p>
 <p>假设数据是均匀采样于一个高维欧氏空间中的低维流形，流形学习就是从高维采样数据中恢复低维流形结构，即找到高维空间中的低维流形，并求出相应的嵌入映射，以实现维数约简或者数据可视化。它是从观测到的现象中去寻找事物的本质，找到产生数据的内在规律。</p>
@@ -235,7 +235,7 @@
 <p>可以将流形学习方法分为线性的和非线性的两种，线性的流形学习方法如我们熟知的主成份分析（PCA），非线性的流形学习方法如等距映射（Isomap）、拉普拉斯特征映射（Laplacian eigenmaps，LE）、局部线性嵌入(Locally-linear embedding，LLE)。关于后几个方法，可参看<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40214106">流形学习概述 - SIGAI的文章 - 知乎</a></p>
 <p><img src="https://i.loli.net/2021/02/05/OMgUxNEjzw3HVlX.jpg" srcset="/img/loading.gif" alt="数据降维.jpg"></p>
 <p>流形学习（manifold learning）假设数据在高维空间的分布位于某一更低维的流形上，基于这个假设来进行数据的分析。对于降维，要保证降维之后的数据同样满足与高维空间流形有关的几何约束关系。除此之外，流形学习还可以用实现聚类，分类以及回归算法。</p>
-<h2 id="2-t-SNE（t-distributed-stochastic-neighbor-embedding"><a href="#2-t-SNE（t-distributed-stochastic-neighbor-embedding" class="headerlink" title="2. t-SNE（t distributed stochastic neighbor embedding)"></a>2. t-SNE（t distributed stochastic neighbor embedding)</h2><p>t-SNE模型是通过SNE演变而来，它跟kmeans等不同，他不能通过训练得到一些东西之后再用于其它数据（比如kmeans可以通过训练得到k个点，再用于其它数据集，而t-SNE只能单独的对数据做操作，也就是说他只有fit_transform，而没有fit操作）。</p>
+<h2 id="2-t-SNE（t-distributed-stochastic-neighbor-embedding"><a href="#2-t-SNE（t-distributed-stochastic-neighbor-embedding" class="headerlink" title="2. t-SNE（t distributed stochastic neighbor embedding)"></a>2. t-SNE（t distributed stochastic neighbor embedding)</h2><p>t-SNE（读作tee-snee）模型是通过SNE演变而来，它跟kmeans等不同，他不能通过训练得到一些东西之后再用于其它数据（比如kmeans可以通过训练得到k个点，再用于其它数据集，而t-SNE只能单独的对数据做操作，也就是说他只有fit_transform，而没有fit操作）。</p>
 <p>SNE是通过仿射(affinitie)变换将数据点映射到概率分布上，主要包括两个步骤：</p>
 <ul>
 <li>SNE构建一个高维对象之间的概率分布，使得相似的对象有更高的概率被选择，而不相似的对象有较低的概率被选择。</li>
@@ -283,6 +283,7 @@ q_{ij}=\cfrac{(1+||y_i-y_j||^2)^{-1}}{\sum_{k\ne i}(1+||y_i-y_k||^2)^{-1}}
 <li>训练太慢。有很多基于树的算法在t-SNE上做一些改进。</li>
 </ul>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/dugudaibo/article/details/79076000">无监督学习：邻域嵌入方法(Neighbor Embedding)</a></li>
 <li><a target="_blank" rel="noopener" href="http://www.datakit.cn/blog/2017/02/05/t_sne_full.html">t-SNE完整笔记</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102668730">流形学习-高维数据的降维与可视化 - 屁屁烫的文章 - 知乎</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40214106">流形学习概述 - SIGAI的文章 - 知乎</a></li>
@@ -320,6 +321,12 @@ q_{ij}=\cfrac{(1+||y_i-y_j||^2)^{-1}}{\sum_{k\ne i}(1+||y_i-y_k||^2)^{-1}}
                 <div class="post-prevnext row">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2021/02/06/VAE/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">VAE</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
