@@ -184,7 +184,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      6.8k 字
+      7.1k 字
     </span>
   
 
@@ -194,7 +194,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      74
+      77
        分钟
     </span>
   
@@ -334,6 +334,8 @@ KL(\boldsymbol{N}(\mu,\sigma^2)||\boldsymbol{N}(0,I))=\cfrac{1}{2}(-\log\sigma^2
 <script type="math/tex; mode=display">
 \mathcal{L}_{\mu,\sigma^2}=\cfrac{1}{2}\sum_{i=1}^d[(\mu_i-\mu_i^Y)^2+\sigma_i^2-\log\sigma_i^2-1]
 \tag 8</script><p>结束，将几篇blog的内容摘到一个blog里，不同的变量风格，只能凑合看了。反正也是写给自己看的。：）</p>
+<h3 id="5-关于VAE的其他补充材料"><a href="#5-关于VAE的其他补充材料" class="headerlink" title="5 关于VAE的其他补充材料"></a>5 关于VAE的其他补充材料</h3><p><a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/5343">苏剑林. (Mar. 28, 2018). 《变分自编码器（二）：从贝叶斯观点出发 》</a>从贝叶斯观点对VAE的整体流程做了一个梳理，利用联合分布的概念替代了原作<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1312.6114.pdf">《Auto-Encoding Variational Bayes》</a>开始，VAE的教程就聚焦于后验分布$p(z|x)$的描述。探究了<strong>贝叶斯学派的概率图模型究竟是如何与深度学习结合来发挥作用的</strong>。解释了在重构损失评估中，采用何种损失函数恰当，总结出：<strong>对于二值数据，我们可以对decoder用sigmoid函数激活，然后用交叉熵作为损失函数，这对应于$q(x|z)$为伯努利分布；而对于一般数据，我们用MSE作为损失函数，这对应于$q(x|z)$为固定方差的正态分布。</strong></p>
+<p><a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/5383">苏剑林. (Apr. 03, 2018). 《变分自编码器（三）：这样做为什么能成？ 》</a>关于如何采样的扩展，可能是因为我缺少实战经验，所以读上去云山雾罩的，等以后有了一些实践，再来细读。</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ol>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/dugudaibo/category_7336223.html">机器学习课程笔记完结</a>,</li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/dugudaibo/article/details/79078264">无监督学习：深度自编码器</a></li>
@@ -342,6 +344,8 @@ KL(\boldsymbol{N}(\mu,\sigma^2)||\boldsymbol{N}(0,I))=\cfrac{1}{2}(-\log\sigma^2
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/dugudaibo/article/details/79085412">无监督学习：生成模型</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/144649293">半小时理解变分自编码器 - 不刷知乎的文章 - 知乎</a></li>
 <li><a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/5253">苏剑林. (Mar. 18, 2018). 《变分自编码器（一）：原来是这么一回事 》</a></li>
+<li><a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/5343">苏剑林. (Mar. 28, 2018). 《变分自编码器（二）：从贝叶斯观点出发 》</a></li>
+<li><a target="_blank" rel="noopener" href="https://spaces.ac.cn/archives/5383">苏剑林. (Apr. 03, 2018). 《变分自编码器（三）：这样做为什么能成？ 》</a></li>
 </ol>
 
             </div>
